@@ -23,7 +23,6 @@ public class Main {
 		pw.addKeyListener(new gKeyListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pw.add(pp);
-		pp.addMouseMotionListener(new gMouseMotionListener());
 		pw.pack();
 		pw.setVisible(true);
 		BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
@@ -31,6 +30,7 @@ public class Main {
 		    blankCursorImg, new Point(0, 0), "blank cursor");
 		pw.getContentPane().setCursor(blankCursor);
 		skynet.mouseMove(pp.size.width/2, pp.size.height/2);
+		pp.addMouseMotionListener(new gMouseMotionListener());
 		Thread refresher = new Thread(){
 			public void run(){
 				while(true){

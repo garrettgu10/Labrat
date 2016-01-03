@@ -13,7 +13,7 @@ public class playPanel extends JPanel{
 	private static final long serialVersionUID = -5287891680186230119L;
 	public static final int u = 15; //unit of size
 	Dimension size = new Dimension(95*u,50*u);
-	public static int circleRadius = 15*u;
+	public int circleRadius = 15*u;
 	public static final int cursorRadius = u;
 	Point circleCenter = new Point(size.width/2,size.height/2);
 	long startTime = System.currentTimeMillis();

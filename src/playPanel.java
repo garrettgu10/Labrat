@@ -13,8 +13,9 @@ public class playPanel extends JPanel{
 	private static final long serialVersionUID = -5287891680186230119L;
 	public static final int u = 15; //unit of size
 	Dimension size = new Dimension(95*u,50*u);
-	public static final int circleRadius = 10*u;
+	public static int circleRadius = 15*u;
 	public static final int cursorRadius = u;
+	Point circleCenter = new Point(size.width/2,size.height/2);
 	long startTime = System.currentTimeMillis();
 	String time;
 	Point mousePosition;
@@ -32,7 +33,7 @@ public class playPanel extends JPanel{
 			g2.setColor(Color.BLUE);
 		g2.fillRect(0, 0, size.width, size.height);
 		g2.setColor(Color.WHITE);
-		g2.fillOval(size.width/2-circleRadius, size.height/2-circleRadius, circleRadius*2, circleRadius*2);
+		g2.fillOval(circleCenter.x-circleRadius, circleCenter.y-circleRadius, circleRadius*2, circleRadius*2);
 		mousePosition = getMousePosition();
 		g2.setColor(Color.GRAY);
 		g2.fillOval(mousePosition.x-cursorRadius, mousePosition.y-cursorRadius, cursorRadius*2, cursorRadius*2);
@@ -65,7 +66,7 @@ public class playPanel extends JPanel{
 		//modified from: http://stackoverflow.com/questions/4112701/drawing-a-line-with-arrow-in-java
 		Graphics2D g2 = (Graphics2D) g.create();
 		
-		int l = (int) (drag*u*3);
+		int l = (int) (drag*u);
 		AffineTransform at = AffineTransform.getTranslateInstance(size.width/2,size.height/2);
 		at.concatenate(AffineTransform.getRotateInstance(2*Math.PI-angle/180*Math.PI));
 		g2.transform(at);

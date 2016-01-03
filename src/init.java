@@ -10,7 +10,7 @@ public class init {
 	static Skynet skynet;
 	static playWindow pw = new playWindow("Window");
 	static playPanel pp = new playPanel();
-	public static final int framerate = 30;
+	public static final int framerate = 50;
 	public static void main(String[] args) {
 		pw.sm.incrementer.start();
 		pw.addKeyListener(new gKeyListener());

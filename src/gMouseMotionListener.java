@@ -2,8 +2,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 public class gMouseMotionListener implements MouseMotionListener{
-	int centerX = init.pp.getPreferredSize().width/2;
-	int centerY = init.pp.getPreferredSize().height/2;
 	int radius = playPanel.circleRadius;
 
 	@Override
@@ -17,10 +15,8 @@ public class gMouseMotionListener implements MouseMotionListener{
 		// TODO Auto-generated method stub
 		int mouseX = e.getX();
 		int mouseY = e.getY();
-		if(Math.pow(mouseX-centerX,2) + Math.pow(mouseY-centerY,2) > Math.pow(radius, 2)){
+		if(Math.pow(mouseX-init.pp.circleCenter.x,2) + Math.pow(mouseY-init.pp.circleCenter.y,2) > Math.pow(radius, 2)){
 			init.pw.fail();
-		}else{
-			init.pw.ongoing = true;
 		}
 	}
 

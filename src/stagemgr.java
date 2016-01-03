@@ -47,12 +47,14 @@ public class stagemgr {
 		if(stagenumber < 10)
 			circleSpeed = 0;
 		else if(stagenumber < 20)
-			circleSpeed = (stagenumber-10)/2;
+			circleSpeed = (int)Math.ceil((stagenumber-10.0)/2);
 		else
 			circleSpeed = 5;
 		
 		if(stagenumber != 1)
-			Main.pp.screenFlash();
+			Main.pp.screenFlash(0);
+		else
+			Main.pp.screenFlash(12);
 	}
 
 	public double getAngle() {

@@ -3,10 +3,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class playPanel extends JPanel{
@@ -26,6 +31,22 @@ public class playPanel extends JPanel{
 	double displayedAngle = 0;
 	public static final double changeSpeed = 10; //higher is slower
 	int opacity = 0;
+	Image character;
+	
+	public playPanel(){
+		super();
+		setCharacterIcon("smiley_30x30");
+	}
+	
+	void setCharacterIcon(String name){
+		URL characterURL = this.getClass().getClassLoader().getResource("resources/"+name+".png");
+		try {
+			character = ImageIO.read(characterURL);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
@@ -35,11 +56,11 @@ public class playPanel extends JPanel{
 			g2.setColor(Color.BLUE);
 		g2.fillRect(0, 0, size.width, size.height);
 		g2.setColor(Color.WHITE);
-		g2.fillOval(circleCenter.x-Main.pw.sm.circleRadius, circleCenter.y-Main.pw.sm.circleRadius, 
-				Main.pw.sm.circleRadius*2, Main.pw.sm.circleRadius*2);
+		g2.fillOval(circleCenter.x-Main.sm.circleRadius, circleCenter.y-Main.sm.circleRadius, 
+				Main.sm.circleRadius*2, Main.sm.circleRadius*2);
 		mousePosition = getMousePosition();
 		g2.setColor(Color.GRAY);
-		g2.fillOval(mousePosition.x-cursorRadius, mousePosition.y-cursorRadius, cursorRadius*2, cursorRadius*2);
+		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		time = getTimeElapsed();
 		g2.setFont(timerFont);
 		g2.setColor(Color.WHITE);
@@ -103,10 +124,10 @@ public class playPanel extends JPanel{
 		return new Point(MouseInfo.getPointerInfo().getLocation().x-this.getLocationOnScreen().x,
 				MouseInfo.getPointerInfo().getLocation().y-this.getLocationOnScreen().y);
 	}
-	public void screenFlash(){
+	public void screenFlash(int initOpacity){
 		Thread screenFlash = new Thread(){
 			public void run(){
-				opacity = 1;
+				opacity = initOpacity;
 				while(opacity < 12){
 					opacity++;
 					try {
@@ -131,7 +152,7 @@ public class playPanel extends JPanel{
 	}
 	
 	public void moveCircle(){
-		for(int i = 0; i < Main.pw.sm.circleSpeed; i++){
+		for(int i = 0; i < Main.sm.circleSpeed; i++){
 			if(circleUp)
 				circleCenter.y--;
 			else
@@ -142,14 +163,14 @@ public class playPanel extends JPanel{
 			else
 				circleCenter.x--;
 			
-			if(circleCenter.x-Main.pw.sm.circleRadius <= 0)
+			if(circleCenter.x-Main.sm.circleRadius <= 0)
 				circleRight = true;
-			else if(circleCenter.x+Main.pw.sm.circleRadius >= size.width)
+			else if(circleCenter.x+Main.sm.circleRadius >= size.width)
 				circleRight = false;
 			
-			if(circleCenter.y-Main.pw.sm.circleRadius <= 0)
+			if(circleCenter.y-Main.sm.circleRadius <= 0)
 				circleUp = false;
-			else if(circleCenter.y+Main.pw.sm.circleRadius >= size.height)
+			else if(circleCenter.y+Main.sm.circleRadius >= size.height)
 				circleUp = true;
 		}
 	}

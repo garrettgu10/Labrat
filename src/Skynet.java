@@ -7,7 +7,7 @@ public class Skynet extends Robot{
 	public int angle = 0; //degrees
 	Thread mouseDrag = new Thread(){
 		public void run(){
-			while(true){
+			while(Main.pw.ongoing){
 				mouseMoveWithDrag();
 				try {
 					Thread.sleep(50);
@@ -20,8 +20,8 @@ public class Skynet extends Robot{
 	};
 	Thread moveCircle = new Thread(){
 		public void run(){
-			while(true){
-				if(Main.pw.sm.circleSpeed != 0)
+			while(Main.pw.ongoing){
+				if(Main.sm.circleSpeed != 0)
 					Main.pp.moveCircle();
 				try {
 					Thread.sleep(50);
@@ -34,10 +34,10 @@ public class Skynet extends Robot{
 	};
 	Thread dragUpdater = new Thread(){
 		public void run(){
-			while(true){
+			while(Main.pw.ongoing){
 				try{
-					if(Main.pw.sm.maxDrag!=0)
-						drag = Math.random()*(Main.pw.sm.maxDrag-1.0)+1.0;
+					if(Main.sm.maxDrag!=0)
+						drag = Math.random()*(Main.sm.maxDrag-1.0)+1.0;
 					angle = (int)(Math.random()*360);
 					try {
 						Thread.sleep(2000);

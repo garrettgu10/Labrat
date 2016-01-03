@@ -13,7 +13,6 @@ public class playPanel extends JPanel{
 	private static final long serialVersionUID = -5287891680186230119L;
 	public static final int u = 15; //unit of size
 	Dimension size = new Dimension(95*u,50*u);
-	public int circleRadius = 15*u;
 	public static final int cursorRadius = u;
 	Point circleCenter = new Point(size.width/2,size.height/2);
 	boolean circleUp = true;
@@ -36,7 +35,8 @@ public class playPanel extends JPanel{
 			g2.setColor(Color.BLUE);
 		g2.fillRect(0, 0, size.width, size.height);
 		g2.setColor(Color.WHITE);
-		g2.fillOval(circleCenter.x-circleRadius, circleCenter.y-circleRadius, circleRadius*2, circleRadius*2);
+		g2.fillOval(circleCenter.x-Main.pw.sm.circleRadius, circleCenter.y-Main.pw.sm.circleRadius, 
+				Main.pw.sm.circleRadius*2, Main.pw.sm.circleRadius*2);
 		mousePosition = getMousePosition();
 		g2.setColor(Color.GRAY);
 		g2.fillOval(mousePosition.x-cursorRadius, mousePosition.y-cursorRadius, cursorRadius*2, cursorRadius*2);
@@ -142,14 +142,14 @@ public class playPanel extends JPanel{
 			else
 				circleCenter.x--;
 			
-			if(circleCenter.x-circleRadius < 0)
+			if(circleCenter.x-Main.pw.sm.circleRadius <= 0)
 				circleRight = true;
-			else if(circleCenter.x+circleRadius > size.width)
+			else if(circleCenter.x+Main.pw.sm.circleRadius >= size.width)
 				circleRight = false;
 			
-			if(circleCenter.y-circleRadius < 0)
+			if(circleCenter.y-Main.pw.sm.circleRadius <= 0)
 				circleUp = false;
-			else if(circleCenter.y+circleRadius > size.height)
+			else if(circleCenter.y+Main.pw.sm.circleRadius >= size.height)
 				circleUp = true;
 		}
 	}

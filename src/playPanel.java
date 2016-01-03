@@ -16,6 +16,8 @@ public class playPanel extends JPanel{
 	public int circleRadius = 15*u;
 	public static final int cursorRadius = u;
 	Point circleCenter = new Point(size.width/2,size.height/2);
+	boolean circleUp = true;
+	boolean circleRight = true; // direction circle will move
 	long startTime = System.currentTimeMillis();
 	String time;
 	Point mousePosition;
@@ -70,7 +72,7 @@ public class playPanel extends JPanel{
 		Graphics2D g2 = (Graphics2D) g.create();
 		
 		int l = (int) (drag*u);
-		AffineTransform at = AffineTransform.getTranslateInstance(size.width/2,size.height/2);
+		AffineTransform at = AffineTransform.getTranslateInstance(circleCenter.x,circleCenter.y);
 		at.concatenate(AffineTransform.getRotateInstance(2*Math.PI-angle/180*Math.PI));
 		g2.transform(at);
 
@@ -126,5 +128,29 @@ public class playPanel extends JPanel{
 			}
 		};
 		screenFlash.start();
+	}
+	
+	public void moveCircle(){
+		for(int i = 0; i < Main.pw.sm.circleSpeed; i++){
+			if(circleUp)
+				circleCenter.y--;
+			else
+				circleCenter.y++;
+			
+			if(circleRight)
+				circleCenter.x++;
+			else
+				circleCenter.x--;
+			
+			if(circleCenter.x-circleRadius < 0)
+				circleRight = true;
+			else if(circleCenter.x+circleRadius > size.width)
+				circleRight = false;
+			
+			if(circleCenter.y-circleRadius < 0)
+				circleUp = false;
+			else if(circleCenter.y+circleRadius > size.height)
+				circleUp = true;
+		}
 	}
 }

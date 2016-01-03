@@ -18,6 +18,20 @@ public class Skynet extends Robot{
 			}
 		}
 	};
+	Thread moveCircle = new Thread(){
+		public void run(){
+			while(true){
+				if(Main.pw.sm.circleSpeed != 0)
+					Main.pp.moveCircle();
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	};
 	Thread dragUpdater = new Thread(){
 		public void run(){
 			while(true){
@@ -41,6 +55,7 @@ public class Skynet extends Robot{
 		super();
 		dragUpdater.start();
 		mouseDrag.start();
+		moveCircle.start();
 	}
 	
 	public void mouseMove(int x, int y){

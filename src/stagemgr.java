@@ -31,8 +31,10 @@ public class stagemgr {
 			maxDrag = 20;
 		}
 		if(stagenumber >=5 && stagenumber <= 10){
-			init.pp.circleRadius = (20-stagenumber)*init.pp.u;
+			Main.pp.circleRadius = (20-stagenumber)*Main.pp.u;
 		}
+		if(stagenumber != 1)
+			Main.pp.screenFlash();
 	}
 
 	public double getAngle() {

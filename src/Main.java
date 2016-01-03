@@ -6,19 +6,21 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.WindowConstants;
 
-public class init {
+public class Main {
 	static Skynet skynet;
-	static playWindow pw = new playWindow("Window");
-	static playPanel pp = new playPanel();
+	static playPanel pp;
+	static playWindow pw;
 	public static final int framerate = 50;
 	public static void main(String[] args) {
-		pw.sm.incrementer.start();
-		pw.addKeyListener(new gKeyListener());
 		try {
 			skynet = new Skynet();
 		} catch (AWTException e1) {
 			e1.printStackTrace();
 		}
+		pp = new playPanel();
+		pw = new playWindow("Window");
+		pw.sm.incrementer.start();
+		pw.addKeyListener(new gKeyListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pw.add(pp);
 		pp.addMouseMotionListener(new gMouseMotionListener());

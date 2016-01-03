@@ -21,14 +21,18 @@ public class Skynet extends Robot{
 	Thread dragUpdater = new Thread(){
 		public void run(){
 			while(true){
-				if(init.pw.sm.maxDrag!=0)
-					drag = Math.random()*(init.pw.sm.maxDrag-1.0)+1.0;
-				angle = (int)(Math.random()*360);
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				try{
+					if(Main.pw.sm.maxDrag!=0)
+						drag = Math.random()*(Main.pw.sm.maxDrag-1.0)+1.0;
+					angle = (int)(Math.random()*360);
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}catch(NullPointerException e){
+					
 				}
 			}
 		}
@@ -40,7 +44,7 @@ public class Skynet extends Robot{
 	}
 	
 	public void mouseMove(int x, int y){
-		super.mouseMove(x+init.pp.getLocationOnScreen().x, y+init.pp.getLocationOnScreen().y);
+		super.mouseMove(x+Main.pp.getLocationOnScreen().x, y+Main.pp.getLocationOnScreen().y);
 	}
 	
 	public void mouseMoveWithDrag(){

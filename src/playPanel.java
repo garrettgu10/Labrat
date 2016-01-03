@@ -24,10 +24,11 @@ public class playPanel extends JPanel{
 	double displayedDrag = 0;
 	double displayedAngle = 0;
 	public static final double changeSpeed = 10; //higher is slower
+	int opacity = 0;
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
-		if(init.pw.ongoing)
+		if(Main.pw.ongoing)
 			g2.setColor(Color.RED);
 		else
 			g2.setColor(Color.BLUE);
@@ -42,20 +43,22 @@ public class playPanel extends JPanel{
 		g2.setColor(Color.WHITE);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 10*u);
 		g2.setColor(Color.DARK_GRAY);
-		if(init.skynet.drag != 0)
+		if(Main.skynet.drag != 0)
 			drawDrag(g2);
+		g2.setColor(new Color(255,255,255,opacity*20));
+		g2.fillRect(0, 0, size.width, size.height);
 	}
 	
 	void drawDrag(Graphics2D g2){
-		displayedDrag += (init.skynet.drag-displayedDrag)/changeSpeed;
-		if(init.skynet.angle-displayedAngle > 180){
-			displayedAngle -= (360-init.skynet.angle+displayedAngle)/changeSpeed;
+		displayedDrag += (Main.skynet.drag-displayedDrag)/changeSpeed;
+		if(Main.skynet.angle-displayedAngle > 180){
+			displayedAngle -= (360-Main.skynet.angle+displayedAngle)/changeSpeed;
 			if(displayedAngle < 0)
 				displayedAngle += 360;
-		}else if(displayedAngle-init.skynet.angle > 180){
-			displayedAngle += (360-displayedAngle+init.skynet.angle)/changeSpeed;
+		}else if(displayedAngle-Main.skynet.angle > 180){
+			displayedAngle += (360-displayedAngle+Main.skynet.angle)/changeSpeed;
 		}else{
-			displayedAngle += (init.skynet.angle-displayedAngle)/changeSpeed;
+			displayedAngle += (Main.skynet.angle-displayedAngle)/changeSpeed;
 		}
 		if(displayedAngle > 360)
 			displayedAngle -= 360;
@@ -77,7 +80,7 @@ public class playPanel extends JPanel{
 	}
 	
 	public String getTimeElapsed(){
-		if(init.pw.ongoing){
+		if(Main.pw.ongoing){
 			long millis = System.currentTimeMillis()-startTime;
 			int second = (int)millis / 1000;
 	
@@ -97,5 +100,31 @@ public class playPanel extends JPanel{
 	public Point getMousePosition(){
 		return new Point(MouseInfo.getPointerInfo().getLocation().x-this.getLocationOnScreen().x,
 				MouseInfo.getPointerInfo().getLocation().y-this.getLocationOnScreen().y);
+	}
+	public void screenFlash(){
+		Thread screenFlash = new Thread(){
+			public void run(){
+				opacity = 1;
+				while(opacity < 12){
+					opacity++;
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				while(opacity > 0){
+					opacity--;
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+		screenFlash.start();
 	}
 }

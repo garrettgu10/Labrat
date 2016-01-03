@@ -21,6 +21,10 @@ public class gKeyListener implements KeyListener{
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			System.exit(0);
 		}
+		
+		if(e.getKeyCode() == KeyEvent.VK_F){
+			Main.pp.screenFlash();
+		}
 	}
 
 }

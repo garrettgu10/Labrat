@@ -12,6 +12,8 @@ public class init {
 	static playPanel pp = new playPanel();
 	public static final int framerate = 30;
 	public static void main(String[] args) {
+		pw.sm.incrementer.start();
+		pw.addKeyListener(new gKeyListener());
 		try {
 			skynet = new Skynet();
 		} catch (AWTException e1) {

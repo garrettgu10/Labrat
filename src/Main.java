@@ -57,6 +57,7 @@ public class Main {
 		}
 		sm.incrementer.start();
 		pw.addKeyListener(new gKeyListener());
+		pw.addFocusListener(new gFocusListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(

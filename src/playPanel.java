@@ -51,7 +51,7 @@ public class playPanel extends JPanel{
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
 		if(Main.pw.ongoing)
-			g2.setColor(Color.RED);
+			g2.setColor(Color.GREEN);
 		else
 			g2.setColor(Color.BLUE);
 		g2.fillRect(0, 0, size.width, size.height);
@@ -63,7 +63,7 @@ public class playPanel extends JPanel{
 		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		time = getTimeElapsed();
 		g2.setFont(timerFont);
-		g2.setColor(Color.WHITE);
+		g2.setColor(Color.YELLOW);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 10*u);
 		g2.setColor(Color.DARK_GRAY);
 		if(Main.skynet.drag != 0)

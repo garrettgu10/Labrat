@@ -15,17 +15,27 @@ class initMouseListener implements MouseListener{
 		if(Main.ip.playButton.contains(e.getX(),e.getY())){
 			Thread t = new Thread(){
 				int temp;
+				int shadowTemp;
 				public void run(){
 					for(int i = 0; i < 10; i++){
 						temp = Main.ip.playButtonColor.getGreen();
 						temp -= 15;
+						shadowTemp = Main.ip.playButtonShadowColor.getAlpha();
+						shadowTemp -= 10;
 						Main.ip.playButtonColor = new Color(0,temp,0);
+						Main.ip.playButtonShadowColor = new Color(0,0,0,shadowTemp);
 						try {
 							Thread.sleep(50);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+					}
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					Main.begin();
 				}
@@ -66,6 +76,11 @@ public class initPanel extends JPanel{
 		(int)(size.width/2-sinpi6*50),
 		(int)(size.width/2-sinpi6*50)},
 			new int[] {size.height/2,(int) (size.height/2+cospi6*50),(int) (size.height/2-cospi6*50)},3);
+	Polygon playButtonShadow = new Polygon(new int[] {playButton.xpoints[0]+5,playButton.xpoints[1]+5,
+			playButton.xpoints[2]+5},
+			new int[] {playButton.ypoints[0]+5,playButton.ypoints[1]+5,
+			playButton.ypoints[2]+5},3);
+	Color playButtonShadowColor = new Color(0,0,0,100);
 	Color bgPlayColor = new Color((int)(255*Math.random()),(int)(255*Math.random()),(int)(255*Math.random()));
 	Color bgColor = new Color(195,195,255);
 	int bgPlaySize = 0;
@@ -77,6 +92,8 @@ public class initPanel extends JPanel{
 		g2.fillRect(0, 0, size.width, size.height);
 		g2.setColor(bgPlayColor);
 		g2.fillPolygon(generatePlayButton(bgPlaySize));
+		g2.setColor(playButtonShadowColor);
+		g2.fillPolygon(playButtonShadow);
 		g2.setColor(playButtonColor);
 		g2.fillPolygon(playButton);
 		g2.setFont(titleFont);

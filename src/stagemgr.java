@@ -10,9 +10,9 @@ public class stagemgr {
 			while(true){
 				try {
 					if(stagenumber == 1 || stagenumber == 2)
-						Thread.sleep(7500);
+						Thread.sleep(6000);
 					else
-						Thread.sleep(15000);
+						Thread.sleep(12000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -29,7 +29,7 @@ public class playPanel extends JPanel{
 	public static final int ARROW_SIZE = u;
 	double displayedDrag = 0;
 	double displayedAngle = 0;
-	public static final double changeSpeed = 10; //higher is slower
+	public static final double changeSpeed = 5; //higher is slower
 	int opacity = 0;
 	Image character;
 	

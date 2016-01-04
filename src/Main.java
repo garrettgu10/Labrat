@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
+import javax.sound.sampled.Clip;
 import javax.swing.WindowConstants;
 
 public class Main {
@@ -42,6 +43,7 @@ public class Main {
 	
 	public static void begin(){
 		pw.ongoing = true;
+		myPlayer gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Pinball_Spring_160");
 		pw.getContentPane().removeAll();
 		pp = new playPanel();
 		sm = new stagemgr(1);

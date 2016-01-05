@@ -120,8 +120,15 @@ public class playPanel extends JPanel{
 	}
 	
 	public Point getMousePosition(){
-		return new Point(MouseInfo.getPointerInfo().getLocation().x-this.getLocationOnScreen().x,
-				MouseInfo.getPointerInfo().getLocation().y-this.getLocationOnScreen().y);
+		try{
+			return new Point(
+					MouseInfo.getPointerInfo().getLocation().x-
+					this.getLocationOnScreen().x,
+					MouseInfo.getPointerInfo().getLocation().y-
+					this.getLocationOnScreen().y);
+		}catch(NullPointerException e){
+			return new Point(0,0);
+		}
 	}
 	public void screenFlash(int initOpacity){
 		Thread screenFlash = new Thread(){

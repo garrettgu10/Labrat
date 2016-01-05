@@ -83,7 +83,7 @@ public class initPanel extends JPanel{
 	Color playButtonShadowColor = new Color(0,0,0,100);
 	Color bgPlayColor = new Color((int)(255*Math.random()),(int)(255*Math.random()),(int)(255*Math.random()));
 	Color bgColor = new Color(195,195,255);
-	int bgPlaySize = 0;
+	int bgPlaySize = 50;
 	Color playButtonColor = Color.GREEN;
 	
 	public void paint(Graphics g){

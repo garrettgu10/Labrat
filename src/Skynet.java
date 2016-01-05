@@ -58,13 +58,17 @@ public class Skynet extends Robot{
 		moveCircle.start();
 	}
 	
-	public void mouseMove(int x, int y){
+	public void mouseMoveWithRespectToPanel(int x, int y){
 		super.mouseMove(x+Main.pp.getLocationOnScreen().x, y+Main.pp.getLocationOnScreen().y);
 	}
 	
 	public void mouseMoveWithDrag(){
 		int dx = (int) (2*drag*Math.cos((360-angle)/180.0*Math.PI));
 		int dy = (int) (2*drag*Math.sin((360-angle)/180.0*Math.PI));
-		super.mouseMove(MouseInfo.getPointerInfo().getLocation().x+dx,MouseInfo.getPointerInfo().getLocation().y+dy);
+		try{
+			super.mouseMove(MouseInfo.getPointerInfo().getLocation().x+dx,MouseInfo.getPointerInfo().getLocation().y+dy);
+		}catch(Exception e){
+			
+		}
 	}
 }

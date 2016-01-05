@@ -1,4 +1,5 @@
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -23,23 +24,51 @@ public class Main {
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pw.pack();
 		pw.setVisible(true);
-		while(!pw.ongoing){
-			if(ip.bgPlaySize*Math.sin(Math.PI/6) < ip.size.width/2){
-				ip.bgPlaySize += 30;
-			}else{
-				ip.bgPlaySize = 0;
-				ip.bgColor = ip.bgPlayColor;
-				ip.generateNewbgPlayColor();
+		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Overriding_Concern");
+		t = new Thread(){
+			public void run(){
+				tempAlpha = 250;
+				while(!pw.ongoing){
+					if(tempAlpha > 0){
+						ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
+								ip.bgPlayColor.getGreen(),
+								ip.bgPlayColor.getBlue(),tempAlpha);
+						tempAlpha = ip.bgPlayColor.getAlpha()-12;
+						ip.bgPlaySize += 30;
+					}
+					pw.revalidate();
+					pw.repaint();
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
-			pw.revalidate();
-			pw.repaint();
+		};
+		t.start();
+		while(!pw.ongoing){
+			restartInitBg();
 			try {
-				Thread.sleep(1000/framerate);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//t.interrupt();
 		}
+	}
+	static Thread t;
+	static int tempAlpha;
+	
+	public static void restartInitBg(){
+		ip.bgPlaySize = 50;
+		tempAlpha = 250;
+		ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
+				ip.bgPlayColor.getGreen(),
+				ip.bgPlayColor.getBlue(),tempAlpha);
+		ip.generateNewbgPlayColor();
 	}
 	
 	public static void begin(){

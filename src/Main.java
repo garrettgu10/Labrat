@@ -4,6 +4,8 @@ import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.sound.sampled.Clip;
 import javax.swing.WindowConstants;
@@ -16,6 +18,10 @@ public class Main {
 	static stagemgr sm;
 	static myPlayer gameMusic;
 	public static final int framerate = 50;
+	
+	static Thread t;
+	static int tempAlpha;
+	static Timer gTimer = new Timer();
 	public static void main(String[] args) {
 		pw = new playWindow("Window");
 		ip = new initPanel();
@@ -59,10 +65,15 @@ public class Main {
 			//t.interrupt();
 		}
 	}
-	static Thread t;
-	static int tempAlpha;
+	static Color darkerPlayButtonColor = Color.GREEN.darker();
 	
 	public static void restartInitBg(){
+		ip.playButtonColor = darkerPlayButtonColor;
+		gTimer.schedule(new TimerTask(){
+			public void run(){
+				ip.playButtonColor = Color.GREEN;
+			}
+		}, 100);
 		ip.bgPlaySize = 50;
 		tempAlpha = 250;
 		ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
@@ -73,6 +84,7 @@ public class Main {
 	
 	public static void begin(){
 		pw.ongoing = true;
+		gameMusic.stop();
 		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Pinball_Spring_160");
 		pw.getContentPane().removeAll();
 		pp = new playPanel();

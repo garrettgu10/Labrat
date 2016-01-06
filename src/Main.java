@@ -23,6 +23,7 @@ public class Main {
 	static Thread t;
 	static int tempAlpha;
 	static Timer gTimer = new Timer();
+	static boolean clockwise;
 	public static void main(String[] args) {
 		
 		pw = new playWindow("Window");
@@ -42,6 +43,7 @@ public class Main {
 								ip.bgPlayColor.getBlue(),tempAlpha);
 						tempAlpha = ip.bgPlayColor.getAlpha()-12;
 						ip.bgPlaySize += 30;
+						ip.bgAngle +=0.05;
 					}
 					pw.revalidate();
 					pw.repaint();
@@ -92,6 +94,7 @@ public class Main {
 			}
 		}, 100);
 		ip.bgPlaySize = 50;
+		ip.bgAngle = 0;
 		tempAlpha = 250;
 		ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
 				ip.bgPlayColor.getGreen(),

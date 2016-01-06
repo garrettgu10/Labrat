@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.JPanel;
 
 class initMouseListener implements MouseListener{
@@ -85,13 +87,19 @@ public class initPanel extends JPanel{
 	Color bgColor = new Color(195,195,255);
 	int bgPlaySize = 50;
 	Color playButtonColor = Color.GREEN;
+	double bgAngle = 0;
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
+		Graphics2D g3 = (Graphics2D)g.create();
 		g2.setColor(bgColor);
 		g2.fillRect(0, 0, size.width, size.height);
-		g2.setColor(bgPlayColor);
-		g2.fillPolygon(generatePlayButton(bgPlaySize));
+		g3.setColor(bgPlayColor);
+		
+		AffineTransform at = AffineTransform.getRotateInstance(bgAngle, size.width/2,size.height/2);
+		g3.transform(at);
+		g3.fillPolygon(generatePlayButton(bgPlaySize));
+		
 		g2.setColor(playButtonShadowColor);
 		g2.fillPolygon(playButtonShadow);
 		g2.setColor(playButtonColor);

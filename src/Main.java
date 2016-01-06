@@ -24,6 +24,7 @@ public class Main {
 	static int tempAlpha;
 	static Timer gTimer = new Timer();
 	public static void main(String[] args) {
+		
 		pw = new playWindow("Window");
 		pw.add(ip);
 		pw.getContentPane().addMouseListener(new initMouseListener());
@@ -55,7 +56,7 @@ public class Main {
 		};
 		t.start();
 		try {
-			Thread.sleep(450);
+			Thread.sleep(400);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

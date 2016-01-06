@@ -2,6 +2,7 @@ import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
@@ -14,7 +15,7 @@ public class Main {
 	static Skynet skynet;
 	static playPanel pp;
 	static playWindow pw;
-	static initPanel ip;
+	static initPanel ip = new initPanel();
 	static stagemgr sm;
 	static myPlayer gameMusic;
 	public static final int framerate = 50;
@@ -24,7 +25,6 @@ public class Main {
 	static Timer gTimer = new Timer();
 	public static void main(String[] args) {
 		pw = new playWindow("Window");
-		ip = new initPanel();
 		pw.add(ip);
 		pw.getContentPane().addMouseListener(new initMouseListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -54,6 +54,12 @@ public class Main {
 			}
 		};
 		t.start();
+		try {
+			Thread.sleep(450);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		while(!pw.ongoing){
 			restartInitBg();
 			try {
@@ -65,13 +71,18 @@ public class Main {
 			//t.interrupt();
 		}
 	}
-	static Color darkerPlayButtonColor = Color.GREEN.darker();
+	static Polygon originalPlayButton = ip.generatePlayButton(50);
+	static Polygon originalPlayButtonShadow = ip.generatePlayButton(50,5,5);
+	static Polygon largerPlayButton = ip.generatePlayButton(70);
+	static Polygon largerPlayButtonShadow = ip.generatePlayButton(70,10,10);
 	
 	public static void restartInitBg(){
-		ip.playButtonColor = darkerPlayButtonColor;
+		ip.playButton = largerPlayButton;
+		ip.playButtonShadow = largerPlayButtonShadow;
 		gTimer.schedule(new TimerTask(){
 			public void run(){
-				ip.playButtonColor = Color.GREEN;
+				ip.playButton = originalPlayButton;
+				ip.playButtonShadow = originalPlayButtonShadow;
 			}
 		}, 100);
 		ip.bgPlaySize = 50;

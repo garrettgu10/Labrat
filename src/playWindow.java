@@ -10,8 +10,8 @@ public class playWindow extends JFrame{
 	}
 	
 	public void fail(){
-		//ongoing = false;
-		//Main.gameMusic.stop();
+		ongoing = false;
+		Main.gameMusic.stop();
 	}
 
 }

@@ -101,12 +101,17 @@ public class initPanel extends JPanel{
 		g2.drawString("Lab Rat",size.width/2-g2.getFontMetrics().stringWidth("Lab Rat")/2,size.height/4);
 		g2.drawPolygon(playButton);
 	}
+	Polygon generatePlayButton(int s){
+		return generatePlayButton(s,0,0);
+	}
 	
-	Polygon generatePlayButton(int s){ // s=radius of circumscribed circle
-		return new Polygon(new int[] {size.width/2+s,
-				(int)(size.width/2-sinpi6*s),
-				(int)(size.width/2-sinpi6*s)},
-					new int[] {size.height/2,(int) (size.height/2+cospi6*s),(int) (size.height/2-cospi6*s)},3);
+	Polygon generatePlayButton(int s, int xoffset,int yoffset){ // s=radius of circumscribed circle
+		return new Polygon(new int[] {size.width/2+s+xoffset,
+				(int)(size.width/2-sinpi6*s+xoffset),
+				(int)(size.width/2-sinpi6*s+xoffset)},
+					new int[] {size.height/2+yoffset,
+							(int) (size.height/2+cospi6*s+yoffset),
+							(int) (size.height/2-cospi6*s+yoffset)},3);
 	}
 	
 	public void generateNewbgPlayColor(){

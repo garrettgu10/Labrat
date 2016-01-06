@@ -62,7 +62,12 @@ public class Main {
 			e1.printStackTrace();
 		}
 		while(!pw.ongoing){
-			restartInitBg();
+			Thread t = new Thread(){
+				public void run(){
+					restartInitBg();
+				}
+			};
+			t.start();
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -75,7 +80,7 @@ public class Main {
 	static Polygon originalPlayButton = ip.generatePlayButton(50);
 	static Polygon originalPlayButtonShadow = ip.generatePlayButton(50,5,5);
 	static Polygon largerPlayButton = ip.generatePlayButton(70);
-	static Polygon largerPlayButtonShadow = ip.generatePlayButton(70,10,10);
+	static Polygon largerPlayButtonShadow = ip.generatePlayButton(70,15,15);
 	
 	public static void restartInitBg(){
 		ip.playButton = largerPlayButton;

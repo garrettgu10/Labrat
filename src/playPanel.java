@@ -25,6 +25,7 @@ public class playPanel extends JPanel{
 	String time;
 	Point mousePosition;
 	public static final Font timerFont = new Font("Courier", Font.PLAIN, 10*u);
+	public static final Font plainFont = new Font("Calibri", Font.PLAIN, 20);
 	public static final int ARROW_SIZE = u;
 	double displayedDrag = 0;
 	double displayedAngle = 0;
@@ -63,7 +64,10 @@ public class playPanel extends JPanel{
 		time = getTimeElapsed();
 		g2.setFont(timerFont);
 		g2.setColor(Color.YELLOW);
-		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 10*u);
+		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 8*u);
+		g2.setFont(plainFont);
+		g2.setColor(Color.BLACK);
+		g2.drawString(Integer.toString(Main.sm.stagenumber),10,20);
 		g2.setColor(Color.DARK_GRAY);
 		if(Main.skynet.drag != 0)
 			drawDrag(g2);

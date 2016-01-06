@@ -63,8 +63,8 @@ public class Skynet extends Robot{
 	}
 	
 	public void mouseMoveWithDrag(){
-		int dx = (int) (2*drag*Math.cos((360-angle)/180.0*Math.PI));
-		int dy = (int) (2*drag*Math.sin((360-angle)/180.0*Math.PI));
+		int dx = (int) Math.ceil(3*drag*Math.cos((360-angle)/180.0*Math.PI)/2);
+		int dy = (int) Math.ceil(3*drag*Math.sin((360-angle)/180.0*Math.PI)/2);
 		try{
 			super.mouseMove(MouseInfo.getPointerInfo().getLocation().x+dx,MouseInfo.getPointerInfo().getLocation().y+dy);
 		}catch(Exception e){

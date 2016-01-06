@@ -32,21 +32,21 @@ public class stagemgr {
 	
 	public void changeStage(int stagenumber){
 		this.stagenumber = stagenumber;
-		if(stagenumber > 10)
+		if(stagenumber > 20)
 			maxDrag = 20;
 		else
-			maxDrag = (stagenumber-1)*2;
+			maxDrag = (stagenumber-1);
 		
-		if(stagenumber < 5)
+		if(stagenumber < 3)
 			circleRadius = 15*playPanel.u;
-		else if(stagenumber < 15)
+		else if(stagenumber < 13)
 			circleRadius = (35-stagenumber)*playPanel.u/2;
 		else
 			circleRadius = 10*playPanel.u;
 		
-		if(stagenumber < 10)
+		if(stagenumber < 7)
 			circleSpeed = 0;
-		else if(stagenumber < 20)
+		else if(stagenumber < 17)
 			circleSpeed = (int)Math.ceil((stagenumber-10.0)/2);
 		else
 			circleSpeed = 5;

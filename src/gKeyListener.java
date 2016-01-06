@@ -23,7 +23,7 @@ public class gKeyListener implements KeyListener{
 		}
 		
 		if(e.getKeyCode() == KeyEvent.VK_F){
-			Main.pp.screenFlash(0);
+			Main.pw.fail();
 		}
 	}
 

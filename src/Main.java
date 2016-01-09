@@ -40,6 +40,7 @@ public class Main {
 		pw.pack();
 		pw.setVisible(true);
 		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Electrodoodle");
+		ip.updateBgColor.start();
 		t = new Thread(){
 			public void run(){
 				tempAlpha = 250;
@@ -102,7 +103,7 @@ public class Main {
 		ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
 				ip.bgPlayColor.getGreen(),
 				ip.bgPlayColor.getBlue(),tempAlpha);
-		ip.generateNewbgPlayColor();
+		ip.bgPlayColor = ip.generateNewRandomColor();
 	}
 	
 	public static void begin(){

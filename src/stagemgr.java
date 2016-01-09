@@ -3,6 +3,7 @@ public class stagemgr {
 	double maxDrag = 0; //20.0 is ungodly hard; 30.0 is practically impossible
 	int circleSpeed = 0; //Speed in taxicab geo of circle
 	int circleRadius = 15*playPanel.u;
+	boolean showDrag = true;
 	
 	Thread incrementer = new Thread(){
 		public void run(){
@@ -34,30 +35,36 @@ public class stagemgr {
 	
 	public void changeStage(int stagenumber){
 		this.stagenumber = stagenumber;
-		if(stagenumber > 10)
-			maxDrag = 20;
+		if(stagenumber >= 7)
+			maxDrag = 14;
 		else
 			maxDrag = (stagenumber-1)*2;
 		
-		if(stagenumber < 3)
+		if(stagenumber < 4)
 			circleRadius = 15*playPanel.u;
-		else if(stagenumber < 13)
-			circleRadius = (33-stagenumber)*playPanel.u/2;
+		else if(stagenumber < 14)
+			circleRadius = (34-stagenumber)*playPanel.u/2;
 		else
 			circleRadius = 10*playPanel.u;
 		
-		if(stagenumber < 5)
+		if(stagenumber < 8)
 			circleSpeed = 0;
-		else if(stagenumber < 15)
-			circleSpeed = (int)Math.ceil((stagenumber-5.0)/2);
+		else if(stagenumber < 18)
+			circleSpeed = (int)Math.ceil((stagenumber-8.0)/2);
 		else
 			circleSpeed = 5;
+		
+		if(stagenumber > 15)
+			showDrag = false;
+		else
+			showDrag = true;
 		
 		if(stagenumber != 1)
 			Main.pp.screenFlash(0);
 		else
 			Main.pp.screenFlash(12);
-		Main.pp.bgColor = Main.pp.getColorFromStageNumber(stagenumber);
+		
+		Main.pp.bgColor = Main.pp.getColorFromNumber(stagenumber);
 		Main.pp.txtColor = Main.pp.getComplementOf(Main.pp.bgColor);
 	}
 

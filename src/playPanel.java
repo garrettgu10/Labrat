@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +28,8 @@ public class playPanel extends JPanel{
 	Point mousePosition;
 	public static final Font timerFont = new Font("Courier", Font.PLAIN, 10*u);
 	public static final Font plainFont = new Font("Calibri", Font.PLAIN, 20);
+	public static final String instructions = "Use your mouse to keep your character within the circle. "
+			+ "This is harder than it seems at first.";
 	public static final int ARROW_SIZE = u;
 	double displayedDrag = 0;
 	double displayedAngle = 0;
@@ -38,13 +39,12 @@ public class playPanel extends JPanel{
 	Thread stopTheCheatrz = new Thread() {
 		public void run(){
 			Point mousePosition;
-			Rectangle ppPosition;
 			while(true){
 				try{
 					mousePosition = getMousePosition();
-					ppPosition = new Rectangle(Main.pp.getLocationOnScreen().x+size.width,Main.pp.getLocationOnScreen().y+size.height);
-							
-					if(!ppPosition.contains(mousePosition)){
+					if(Math.pow(mousePosition.x-Main.pp.circleCenter.x,2) + 
+							Math.pow(mousePosition.y-Main.pp.circleCenter.y,2) > 
+							Math.pow(Main.sm.circleRadius, 2)){
 						Main.pw.fail();
 					}
 				} catch (Exception e){
@@ -90,17 +90,25 @@ public class playPanel extends JPanel{
 				Main.sm.circleRadius*2, Main.sm.circleRadius*2);
 		mousePosition = getMousePosition();
 		g2.setColor(Color.GRAY);
-		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		time = getTimeElapsed();
 		g2.setFont(timerFont);
+		g2.setColor(Color.GRAY);
+		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2+2, 8*u+2);
 		g2.setColor(txtColor);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 8*u);
 		g2.setFont(plainFont);
 		g2.setColor(Color.BLACK);
 		g2.drawString(Integer.toString(Main.sm.stagenumber),10,20);
+		if(Main.sm.stagenumber == 1){
+			g2.setColor(Color.WHITE);
+			g2.drawString(instructions, 
+					size.width/2-g2.getFontMetrics().stringWidth(instructions)/2, 
+					size.height-20);
+		}
 		g2.setColor(Color.DARK_GRAY);
-		if(Main.skynet.drag != 0)
+		if(Main.skynet.drag != 0 && Main.sm.showDrag)
 			drawDrag(g2);
+		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		g2.setColor(new Color(255,255,255,opacity*20));
 		g2.fillRect(0, 0, size.width, size.height);
 	}
@@ -214,7 +222,7 @@ public class playPanel extends JPanel{
 		}
 	}
 	
-	Color getColorFromStageNumber(int stagenumber){ // s=stagenumber
+	Color getColorFromNumber(int stagenumber){ // s=stagenumber
 		int s = stagenumber % 24;
 		if(s < 8)
 			return new Color(0,255-s*32,s*32);

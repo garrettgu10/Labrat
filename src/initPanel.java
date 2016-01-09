@@ -18,7 +18,6 @@ class initMouseListener implements MouseListener{
 			Thread t = new Thread(){
 				int temp;
 				public void run(){
-					
 					new myPlayer(0,"265775_arcade");
 					for(int i = 0; i < 10; i++){
 						temp = Main.ip.playButtonColor.getGreen();
@@ -81,10 +80,23 @@ public class initPanel extends JPanel{
 	Color playButtonShadowColor = new Color(0,0,0,100);
 	double playButtonShadowOffset = 5;
 	Color bgPlayColor = new Color((int)(255*Math.random()),(int)(255*Math.random()),(int)(255*Math.random()));
-	Color bgColor = new Color(195,195,255);
+	Color bgColor = Color.WHITE;
 	int bgPlaySize = 50;
 	Color playButtonColor = Color.GREEN;
 	double bgAngle = 0;
+	Thread updateBgColor = new Thread(){
+		public void run(){
+			while(true){
+				bgColor = generateNewBrightColor();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	};
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
@@ -120,11 +132,25 @@ public class initPanel extends JPanel{
 							(int) (size.height/2-cospi6*s+yoffset)},3);
 	}
 	
-	public void generateNewbgPlayColor(){
-		bgPlayColor = new Color((int)(255*Math.random()),(int)(255*Math.random()),(int)(255*Math.random()));
+	public Color generateNewRandomColor(){
+		return new Color((int)(255*Math.random()),(int)(255*Math.random()),(int)(255*Math.random()));
+	}
+	
+	public Color generateNewBrightColor(){
+		return new Color((int)(100*Math.random()+155),(int)(100*Math.random()+155),(int)(100*Math.random()+155));
 	}
 	
 	public Dimension getPreferredSize(){
 		return size;
+	}
+	
+	Color getColorFromNumber(int stagenumber){ // s=stagenumber
+		int s = stagenumber % 24;
+		if(s < 8)
+			return new Color(0,255-s*32,s*32);
+		if(s < 16)
+			return new Color((s-8)*32,0,255-(s-8)*32);
+		
+		return new Color(255-(s-16)*32,(s-16)*32,0);
 	}
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +16,8 @@ import javax.swing.JPanel;
 
 public class playPanel extends JPanel{
 	private static final long serialVersionUID = -5287891680186230119L;
+	Color bgColor = new Color(0,255,0);
+	Color txtColor = new Color (255,0,255);
 	public static final int u = 15; //unit of size
 	Dimension size = new Dimension(95*u,50*u);
 	public static final int cursorRadius = u;
@@ -32,10 +35,36 @@ public class playPanel extends JPanel{
 	public static final double changeSpeed = 5; //higher is slower
 	int opacity = 0;
 	Image character;
+	Thread stopTheCheatrz = new Thread() {
+		public void run(){
+			Point mousePosition;
+			Rectangle ppPosition;
+			while(true){
+				try{
+					mousePosition = getMousePosition();
+					ppPosition = new Rectangle(Main.pp.getLocationOnScreen().x+size.width,Main.pp.getLocationOnScreen().y+size.height);
+							
+					if(!ppPosition.contains(mousePosition)){
+						Main.pw.fail();
+					}
+				} catch (Exception e){
+					//whatevs
+				}
+				//Chris is the best
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	};
 	
 	public playPanel(){
 		super();
 		setCharacterIcon("smiley_30x30");
+		stopTheCheatrz.start();
 	}
 	
 	void setCharacterIcon(String name){
@@ -48,12 +77,16 @@ public class playPanel extends JPanel{
 		}
 	}
 	
+	Color getComplementOf(Color c){
+		return new Color(255-c.getRed(),255-c.getGreen(),255-c.getBlue());
+	}
+	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
 		if(Main.pw.ongoing)
-			g2.setColor(Color.GREEN);
+			g2.setColor(bgColor);
 		else
-			g2.setColor(Color.BLUE);
+			g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, size.width, size.height);
 		g2.setColor(Color.WHITE);
 		g2.fillOval(circleCenter.x-Main.sm.circleRadius, circleCenter.y-Main.sm.circleRadius, 
@@ -63,7 +96,7 @@ public class playPanel extends JPanel{
 		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		time = getTimeElapsed();
 		g2.setFont(timerFont);
-		g2.setColor(Color.YELLOW);
+		g2.setColor(txtColor);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 8*u);
 		g2.setFont(plainFont);
 		g2.setColor(Color.BLACK);
@@ -131,7 +164,9 @@ public class playPanel extends JPanel{
 					MouseInfo.getPointerInfo().getLocation().y-
 					this.getLocationOnScreen().y);
 		}catch(NullPointerException e){
+			Main.pw.fail();
 			return new Point(0,0);
+			
 		}
 	}
 	public void screenFlash(int initOpacity){
@@ -183,5 +218,15 @@ public class playPanel extends JPanel{
 			else if(circleCenter.y+Main.sm.circleRadius >= size.height)
 				circleUp = true;
 		}
+	}
+	
+	Color getColorFromStageNumber(int stagenumber){ // s=stagenumber
+		int s = stagenumber % 24;
+		if(s < 8)
+			return new Color(0,255-s*32,s*32);
+		if(s < 16)
+			return new Color((s-8)*32,0,255-(s-8)*32);
+		
+		return new Color(255-(s-16)*32,(s-16)*32,0);
 	}
 }

@@ -25,7 +25,6 @@ public class Main {
 	static Timer gTimer = new Timer();
 	static boolean clockwise;
 	public static void main(String[] args) {
-		
 		pw = new playWindow("Window");
 		pw.add(ip);
 		pw.getContentPane().addMouseListener(new initMouseListener());

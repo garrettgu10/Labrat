@@ -55,6 +55,8 @@ public class stagemgr {
 			Main.pp.screenFlash(0);
 		else
 			Main.pp.screenFlash(12);
+		Main.pp.bgColor = Main.pp.getColorFromStageNumber(stagenumber);
+		Main.pp.txtColor = Main.pp.getComplementOf(Main.pp.bgColor);
 	}
 
 	public double getAngle() {

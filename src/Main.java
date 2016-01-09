@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.sound.sampled.Clip;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 public class Main {
@@ -25,13 +26,20 @@ public class Main {
 	static Timer gTimer = new Timer();
 	static boolean clockwise;
 	public static void main(String[] args) {
+		int musicyesno = JOptionPane.showConfirmDialog(null,
+				"Do you want music and sound effects?\n"
+				+ "Please note that enabling music might help you with timing.",
+				"Music",JOptionPane.YES_NO_OPTION);
+		if(musicyesno==JOptionPane.NO_OPTION){
+			myPlayer.play = false;
+		}
 		pw = new playWindow("Window");
 		pw.add(ip);
 		pw.getContentPane().addMouseListener(new initMouseListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pw.pack();
 		pw.setVisible(true);
-		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Overriding_Concern");
+		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Electrodoodle");
 		t = new Thread(){
 			public void run(){
 				tempAlpha = 250;
@@ -79,17 +87,13 @@ public class Main {
 		}
 	}
 	static Polygon originalPlayButton = ip.generatePlayButton(50);
-	static Polygon originalPlayButtonShadow = ip.generatePlayButton(50,5,5);
 	static Polygon largerPlayButton = ip.generatePlayButton(70);
-	static Polygon largerPlayButtonShadow = ip.generatePlayButton(70,15,15);
 	
 	public static void restartInitBg(){
 		ip.playButton = largerPlayButton;
-		ip.playButtonShadow = largerPlayButtonShadow;
 		gTimer.schedule(new TimerTask(){
 			public void run(){
 				ip.playButton = originalPlayButton;
-				ip.playButtonShadow = originalPlayButtonShadow;
 			}
 		}, 100);
 		ip.bgPlaySize = 50;
@@ -124,7 +128,7 @@ public class Main {
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-		    blankCursorImg, new Point(0, 0), "blank cursor");
+			blankCursorImg, new Point(0, 0), "blank cursor");
 		pw.getContentPane().setCursor(blankCursor);
 		//skynet.mouseMove(pp.circleCenter.x, pp.circleCenter.y);
 		pp.addMouseMotionListener(new gMouseMotionListener());

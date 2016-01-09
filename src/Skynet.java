@@ -5,22 +5,10 @@ import java.awt.Robot;
 public class Skynet extends Robot{
 	public double drag = 0;
 	public int angle = 0; //degrees
-	Thread mouseDrag = new Thread(){
+	Thread mouseDragAndMoveCircle = new Thread(){
 		public void run(){
 			while(Main.pw.ongoing){
 				mouseMoveWithDrag();
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	};
-	Thread moveCircle = new Thread(){
-		public void run(){
-			while(Main.pw.ongoing){
 				if(Main.sm.circleSpeed != 0)
 					Main.pp.moveCircle();
 				try {
@@ -34,11 +22,15 @@ public class Skynet extends Robot{
 	};
 	Thread dragUpdater = new Thread(){
 		public void run(){
+			try {
+				Thread.sleep(1450);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			while(Main.pw.ongoing){
 				try{
-					if(Main.sm.maxDrag!=0)
-						drag = Math.random()*(Main.sm.maxDrag-1.0)+1.0;
-					angle = (int)(Math.random()*360);
+					updateDrag();
 					try {
 						Thread.sleep(1500);
 					} catch (InterruptedException e) {
@@ -51,11 +43,17 @@ public class Skynet extends Robot{
 			}
 		}
 	};
+	
+	public void updateDrag() throws NullPointerException{
+		if(Main.sm.maxDrag!=0)
+			drag = Math.random()*(Main.sm.maxDrag-1.0)+1.0;
+		angle = (int)(Math.random()*360);
+	}
+	
 	public Skynet() throws AWTException {
 		super();
 		dragUpdater.start();
-		mouseDrag.start();
-		moveCircle.start();
+		mouseDragAndMoveCircle.start();
 	}
 	
 	public void mouseMoveWithRespectToPanel(int x, int y){

@@ -48,13 +48,11 @@ public class playPanel extends JPanel{
 						Main.pw.fail();
 					}
 				} catch (Exception e){
-					//whatevs
+					//whatevs -- who's Chris?
 				}
-				//Chris is the best
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -72,7 +70,6 @@ public class playPanel extends JPanel{
 		try {
 			character = ImageIO.read(characterURL);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -124,8 +121,7 @@ public class playPanel extends JPanel{
 		drawArrow(g2,displayedAngle,displayedDrag);
 	}
 	
-	void drawArrow(Graphics g, double angle, double drag) { 
-		//modified from: http://stackoverflow.com/questions/4112701/drawing-a-line-with-arrow-in-java
+	void drawArrow(Graphics g, double angle, double drag) {
 		Graphics2D g2 = (Graphics2D) g.create();
 		
 		int l = (int) (drag*u);
@@ -178,7 +174,6 @@ public class playPanel extends JPanel{
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -187,7 +182,6 @@ public class playPanel extends JPanel{
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

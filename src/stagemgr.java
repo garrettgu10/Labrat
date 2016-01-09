@@ -9,15 +9,17 @@ public class stagemgr {
 			//first two increments are special and quick
 			while(true){
 				try {
-					if(stagenumber == 1 || stagenumber == 2)
-						Thread.sleep(6000);
+					if(stagenumber == 1)
+						Thread.sleep(5400);
+					else if(stagenumber == 2)
+						Thread.sleep(6600);
 					else
 						Thread.sleep(12000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				changeStage(++stagenumber);
+				changeStage(stagenumber+1);
 			}
 		}
 	};
@@ -32,22 +34,22 @@ public class stagemgr {
 	
 	public void changeStage(int stagenumber){
 		this.stagenumber = stagenumber;
-		if(stagenumber > 20)
+		if(stagenumber > 10)
 			maxDrag = 20;
 		else
-			maxDrag = (stagenumber-1);
+			maxDrag = (stagenumber-1)*2;
 		
 		if(stagenumber < 3)
 			circleRadius = 15*playPanel.u;
 		else if(stagenumber < 13)
-			circleRadius = (35-stagenumber)*playPanel.u/2;
+			circleRadius = (33-stagenumber)*playPanel.u/2;
 		else
 			circleRadius = 10*playPanel.u;
 		
-		if(stagenumber < 7)
+		if(stagenumber < 5)
 			circleSpeed = 0;
-		else if(stagenumber < 17)
-			circleSpeed = (int)Math.ceil((stagenumber-10.0)/2);
+		else if(stagenumber < 15)
+			circleSpeed = (int)Math.ceil((stagenumber-5.0)/2);
 		else
 			circleSpeed = 5;
 		

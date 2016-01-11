@@ -97,10 +97,9 @@ public class playPanel extends JPanel{
 		g2.setColor(txtColor);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 8*u);
 		g2.setFont(plainFont);
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.WHITE);
 		g2.drawString(Integer.toString(Main.sm.stagenumber),10,20);
 		if(Main.sm.stagenumber == 1){
-			g2.setColor(Color.WHITE);
 			g2.drawString(instructions, 
 					size.width/2-g2.getFontMetrics().stringWidth(instructions)/2, 
 					size.height-20);

@@ -5,13 +5,11 @@ public class gMouseMotionListener implements MouseMotionListener{
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 		if(Math.pow(mouseX-Main.pp.circleCenter.x,2) + 
@@ -20,5 +18,4 @@ public class gMouseMotionListener implements MouseMotionListener{
 			Main.pw.fail();
 		}
 	}
-
 }

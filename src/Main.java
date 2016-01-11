@@ -151,5 +151,4 @@ public class Main {
 		};
 		refresher.start();
 	}
-
 }

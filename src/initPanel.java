@@ -16,7 +16,7 @@ class initMouseListener implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if(Main.ip.playButton.contains(e.getX(),e.getY())){
 			Thread t = new Thread(){
-				int temp;
+				int temp = 255;
 				public void run(){
 					new myPlayer(0,"265775_arcade");
 					for(int i = 0; i < 10; i++){

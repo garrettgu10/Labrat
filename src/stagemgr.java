@@ -1,6 +1,6 @@
 public class stagemgr {
 	int stagenumber = 1;
-	double maxDrag = 0; //20.0 is ungodly hard; 30.0 is practically impossible
+	double maxDrag = 0; 
 	int circleSpeed = 0; //Speed in taxicab geo of circle
 	int circleRadius = 15*playPanel.u;
 	boolean showDrag = true;
@@ -17,7 +17,6 @@ public class stagemgr {
 					else
 						Thread.sleep(12000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				changeStage(stagenumber+1);

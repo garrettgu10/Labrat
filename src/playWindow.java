@@ -13,5 +13,4 @@ public class playWindow extends JFrame{
 		//ongoing = false;
 		//Main.gameMusic.stop();
 	}
-
 }

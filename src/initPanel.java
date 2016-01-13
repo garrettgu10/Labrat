@@ -18,7 +18,7 @@ class initMouseListener implements MouseListener{
 			Thread t = new Thread(){
 				int temp = 255;
 				public void run(){
-					new myPlayer(0,"265775_arcade");
+					new myPlayer(0,"Coin_Drop");
 					for(int i = 0; i < 10; i++){
 						temp = Main.ip.playButtonColor.getGreen();
 						temp -= 15;

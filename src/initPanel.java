@@ -14,16 +14,21 @@ class initMouseListener implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(Main.ip.playButton.contains(e.getX(),e.getY())){
+		if(mainmain.m.ip.playButton.contains(e.getX(),e.getY())){
 			Thread t = new Thread(){
 				int temp = 255;
 				public void run(){
+					temp = 255;
 					new myPlayer(0,"Coin_Drop");
 					for(int i = 0; i < 10; i++){
-						temp = Main.ip.playButtonColor.getGreen();
+						temp = mainmain.m.ip.playButtonColor.getGreen();
 						temp -= 15;
-						Main.ip.playButtonColor = new Color(0,temp,0);
-						Main.ip.playButtonShadowOffset -= 0.5;
+						try{
+							mainmain.m.ip.playButtonColor = new Color(0,temp,0);
+						}catch(Exception e){
+							break;
+						}
+						mainmain.m.ip.playButtonShadowOffset -= 0.5;
 						try {
 							Thread.sleep(50);
 						} catch (InterruptedException e) {
@@ -31,14 +36,14 @@ class initMouseListener implements MouseListener{
 							e.printStackTrace();
 						}
 					}
-					Main.gameMusic.stop();
+					mainmain.m.gameMusic.stop();
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Main.begin();
+					mainmain.m.begin();
 				}
 			};
 			t.start();
@@ -97,6 +102,9 @@ public class initPanel extends JPanel{
 			}
 		}
 	};
+	String name;
+	String score;
+	public static final Font plainFont = new Font("Calibri",Font.PLAIN,20);
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
@@ -118,6 +126,11 @@ public class initPanel extends JPanel{
 		g2.setColor(Color.BLACK);
 		g2.drawString("Lab Rat",size.width/2-g2.getFontMetrics().stringWidth("Lab Rat")/2,size.height/4);
 		g2.drawPolygon(playButton);
+		name = "Name: "+mainmain.m.name;
+		score = "High score: "+playPanel.formatTime(mainmain.m.highScore);
+		g2.setFont(plainFont);
+		g2.drawString(name, size.width/2-g2.getFontMetrics().stringWidth(name)/2, size.height/4*3);
+		g2.drawString(score, size.width/2-g2.getFontMetrics().stringWidth(score)/2, size.height/4*3+30);
 	}
 	Polygon generatePlayButton(int s){
 		return generatePlayButton(s,0,0);

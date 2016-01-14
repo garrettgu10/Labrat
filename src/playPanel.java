@@ -42,10 +42,10 @@ public class playPanel extends JPanel{
 			while(true){
 				try{
 					mousePosition = getMousePosition();
-					if(Math.pow(mousePosition.x-Main.pp.circleCenter.x,2) + 
-							Math.pow(mousePosition.y-Main.pp.circleCenter.y,2) > 
-							Math.pow(Main.sm.circleRadius, 2)){
-						Main.pw.fail();
+					if(Math.pow(mousePosition.x-mainmain.m.pp.circleCenter.x,2) + 
+							Math.pow(mousePosition.y-mainmain.m.pp.circleCenter.y,2) > 
+							Math.pow(mainmain.m.sm.circleRadius, 2)){
+						mainmain.m.pw.fail(getFinalScore());
 					}
 				} catch (Exception e){
 					//whatevs -- who's Chris?
@@ -53,11 +53,15 @@ public class playPanel extends JPanel{
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					//whatevs
 				}
 			}
 		}
 	};
+	
+	public int getFinalScore(){
+		return (int) (System.currentTimeMillis()-startTime);
+	}
 	
 	public playPanel(){
 		super();
@@ -80,14 +84,14 @@ public class playPanel extends JPanel{
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
-		if(Main.pw.ongoing)
+		if(mainmain.m.pw.ongoing)
 			g2.setColor(bgColor);
 		else
 			g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, size.width, size.height);
 		g2.setColor(Color.WHITE);
-		g2.fillOval(circleCenter.x-Main.sm.circleRadius, circleCenter.y-Main.sm.circleRadius, 
-				Main.sm.circleRadius*2, Main.sm.circleRadius*2);
+		g2.fillOval(circleCenter.x-mainmain.m.sm.circleRadius, circleCenter.y-mainmain.m.sm.circleRadius, 
+				mainmain.m.sm.circleRadius*2, mainmain.m.sm.circleRadius*2);
 		mousePosition = getMousePosition();
 		g2.setColor(Color.GRAY);
 		time = getTimeElapsed();
@@ -98,14 +102,14 @@ public class playPanel extends JPanel{
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 8*u);
 		g2.setFont(plainFont);
 		g2.setColor(Color.WHITE);
-		g2.drawString(Integer.toString(Main.sm.stagenumber),10,20);
-		if(Main.sm.stagenumber == 1){
+		g2.drawString(Integer.toString(mainmain.m.sm.stagenumber),10,20);
+		if(mainmain.m.sm.stagenumber == 1){
 			g2.drawString(instructions, 
 					size.width/2-g2.getFontMetrics().stringWidth(instructions)/2, 
 					size.height-20);
 		}
 		g2.setColor(Color.DARK_GRAY);
-		if(Main.skynet.drag != 0 && Main.sm.showDrag)
+		if(mainmain.m.skynet.drag != 0 && mainmain.m.sm.showDrag)
 			drawDrag(g2);
 		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		g2.setColor(new Color(255,255,255,opacity*20));
@@ -113,15 +117,15 @@ public class playPanel extends JPanel{
 	}
 	
 	void drawDrag(Graphics2D g2){
-		displayedDrag += (Main.skynet.drag-displayedDrag)/changeSpeed;
-		if(Main.skynet.angle-displayedAngle > 180){
-			displayedAngle -= (360-Main.skynet.angle+displayedAngle)/changeSpeed;
+		displayedDrag += (mainmain.m.skynet.drag-displayedDrag)/changeSpeed;
+		if(mainmain.m.skynet.angle-displayedAngle > 180){
+			displayedAngle -= (360-mainmain.m.skynet.angle+displayedAngle)/changeSpeed;
 			if(displayedAngle < 0)
 				displayedAngle += 360;
-		}else if(displayedAngle-Main.skynet.angle > 180){
-			displayedAngle += (360-displayedAngle+Main.skynet.angle)/changeSpeed;
+		}else if(displayedAngle-mainmain.m.skynet.angle > 180){
+			displayedAngle += (360-displayedAngle+mainmain.m.skynet.angle)/changeSpeed;
 		}else{
-			displayedAngle += (Main.skynet.angle-displayedAngle)/changeSpeed;
+			displayedAngle += (mainmain.m.skynet.angle-displayedAngle)/changeSpeed;
 		}
 		if(displayedAngle > 360)
 			displayedAngle -= 360;
@@ -142,12 +146,19 @@ public class playPanel extends JPanel{
 	}
 	
 	public String getTimeElapsed(){
-		if(Main.pw.ongoing){
+		if(mainmain.m.pw.ongoing){
 			long millis = System.currentTimeMillis()-startTime;
 			int second = (int)millis / 1000;
 	
 			time = String.format("%d:%02d", second, millis%1000/10);
 		}
+		return time;
+	}
+	
+	public static String formatTime(long millis){
+		int second = (int)millis / 1000;
+		
+		String time = String.format("%d:%02d", second, millis%1000/10);
 		return time;
 	}
 	
@@ -167,7 +178,7 @@ public class playPanel extends JPanel{
 					MouseInfo.getPointerInfo().getLocation().y-
 					this.getLocationOnScreen().y);
 		}catch(NullPointerException e){
-			Main.pw.fail();
+			mainmain.m.pw.fail(getFinalScore());
 			return new Point(0,0);
 			
 		}
@@ -198,7 +209,7 @@ public class playPanel extends JPanel{
 	}
 	
 	public void moveCircle(){
-		for(int i = 0; i < Main.sm.circleSpeed; i++){
+		for(int i = 0; i < mainmain.m.sm.circleSpeed; i++){
 			if(circleUp)
 				circleCenter.y--;
 			else
@@ -209,14 +220,14 @@ public class playPanel extends JPanel{
 			else
 				circleCenter.x--;
 			
-			if(circleCenter.x-Main.sm.circleRadius <= 0)
+			if(circleCenter.x-mainmain.m.sm.circleRadius <= 0)
 				circleRight = true;
-			else if(circleCenter.x+Main.sm.circleRadius >= size.width)
+			else if(circleCenter.x+mainmain.m.sm.circleRadius >= size.width)
 				circleRight = false;
 			
-			if(circleCenter.y-Main.sm.circleRadius <= 0)
+			if(circleCenter.y-mainmain.m.sm.circleRadius <= 0)
 				circleUp = false;
-			else if(circleCenter.y+Main.sm.circleRadius >= size.height)
+			else if(circleCenter.y+mainmain.m.sm.circleRadius >= size.height)
 				circleUp = true;
 		}
 	}

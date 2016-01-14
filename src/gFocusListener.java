@@ -12,7 +12,7 @@ public class gFocusListener implements FocusListener{
 	@Override
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
-		Main.pw.fail();
+		//mainmain.m.pw.fail(mainmain.m.pp.getFinalScore());
 	}
 
 }

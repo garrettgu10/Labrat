@@ -5,6 +5,11 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,19 +18,70 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 public class Main {
-	static Skynet skynet;
-	static playPanel pp;
-	static playWindow pw;
-	static initPanel ip = new initPanel();
-	static stagemgr sm;
-	static myPlayer gameMusic;
+	Skynet skynet;
+	playPanel pp;
+	playWindow pw;
+	initPanel ip = new initPanel();
+	stagemgr sm;
+	myPlayer gameMusic;
 	public static final int framerate = 50;
 	
-	static Thread t;
-	static int tempAlpha;
-	static Timer gTimer = new Timer();
-	static boolean clockwise;
-	public static void main(String[] args) {
+	Thread t;
+	int tempAlpha;
+	Timer gTimer = new Timer();
+	boolean clockwise;
+	String name = "Guest";
+	int highScore = 0;
+	String username = Networking.getUserName();
+	
+	private boolean netIsAvailable() {
+		try {
+			final URL url = new URL("http://www.google.com");
+			final URLConnection conn = url.openConnection();
+			conn.connect();
+			return true;
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) { 
+			return false; 
+		}
+	}
+	
+	public void main(int music) {
+		if(!netIsAvailable()){
+			JOptionPane.showMessageDialog(null, "Internet is not available. \nProgress will not be saved.");
+			Networking.online=false;
+		}
+		try {
+			if(Networking.userExists(username)){
+				name = Networking.getName(username);
+				highScore = Networking.getScore(username);
+			}else{
+				boolean valid = false;
+				String response = "Guest";
+				while(!valid){
+					response = JOptionPane.showInputDialog("Make a new player name!\n"
+							+ "Player names should be unique, and\n"
+							+ "you won't be able to make a new one later.");
+					if(response.equals("") || response == null){
+						JOptionPane.showMessageDialog(null, "Please enter a user name.");
+						continue;
+					}
+					if(response.contains("+")){
+						JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character.");
+					}
+					if(response.length() > 15 || response.length() < 5){
+						JOptionPane.showMessageDialog(null, "Sorry, names must have length 5-15.");
+					}
+					valid = true;
+				}
+				Networking.makeNewUser(response,username);
+				name = Networking.getName(username);
+				highScore = Networking.getScore(username);
+			}
+		} catch (IOException | NoSuchAlgorithmException e) {
+			//whatevs
+		}
 		int musicyesno = JOptionPane.showConfirmDialog(null,
 				"Do you want music and sound effects?\n"
 				+ "Please note that enabling music might help you with timing.",
@@ -34,14 +90,26 @@ public class Main {
 			myPlayer.play = false;
 		}
 		pw = new playWindow("Window");
+		init();
+	}
+	Thread refresher;
+	
+	public void init(){
+		pw.getContentPane().setCursor(Cursor.getDefaultCursor());
+		pw.setVisible(false);
+		pw = new playWindow("Window");
+		ip=new initPanel();
 		pw.add(ip);
+		pw.pack();
 		pw.getContentPane().addMouseListener(new initMouseListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pw.pack();
 		pw.setVisible(true);
 		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Electrodoodle");
 		ip.updateBgColor.start();
-		t = new Thread(){
+		pw.revalidate();
+		pw.repaint();
+		refresher = new Thread(){
 			public void run(){
 				tempAlpha = 250;
 				while(!pw.ongoing){
@@ -64,7 +132,7 @@ public class Main {
 				}
 			}
 		};
-		t.start();
+		refresher.start();
 		try {
 			Thread.sleep(400);
 		} catch (InterruptedException e1) {
@@ -72,12 +140,12 @@ public class Main {
 			e1.printStackTrace();
 		}
 		while(!pw.ongoing){
-			Thread t = new Thread(){
+			Thread x = new Thread(){
 				public void run(){
 					restartInitBg();
 				}
 			};
-			t.start();
+			x.start();
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -87,10 +155,10 @@ public class Main {
 			//t.interrupt();
 		}
 	}
-	static Polygon originalPlayButton = ip.generatePlayButton(50);
-	static Polygon largerPlayButton = ip.generatePlayButton(70);
+	Polygon originalPlayButton = ip.generatePlayButton(50);
+	Polygon largerPlayButton = ip.generatePlayButton(70);
 	
-	public static void restartInitBg(){
+	public void restartInitBg(){
 		ip.playButton = largerPlayButton;
 		gTimer.schedule(new TimerTask(){
 			public void run(){
@@ -106,7 +174,7 @@ public class Main {
 		ip.bgPlayColor = ip.generateNewRandomColor();
 	}
 	
-	public static void begin(){
+	public void begin(){
 		pw.ongoing = true;
 		gameMusic.stop();
 		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Pinball_Spring_160");
@@ -135,7 +203,7 @@ public class Main {
 		pp.addMouseMotionListener(new gMouseMotionListener());
 		Thread refresher = new Thread(){
 			public void run(){
-				while(Main.pw.ongoing){
+				while(mainmain.m.pw.ongoing){
 					pw.revalidate();
 					pw.repaint();
 					try {

@@ -8,7 +8,7 @@ public class stagemgr {
 	Thread incrementer = new Thread(){
 		public void run(){
 			//first two increments are special and quick
-			while(true){
+			while(mainmain.m.pw.ongoing){
 				try {
 					if(stagenumber == 1)
 						Thread.sleep(5400);
@@ -17,7 +17,7 @@ public class stagemgr {
 					else
 						Thread.sleep(12000);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					//whatevs
 				}
 				changeStage(stagenumber+1);
 			}
@@ -34,8 +34,8 @@ public class stagemgr {
 	
 	public void changeStage(int stagenumber){
 		this.stagenumber = stagenumber;
-		if(stagenumber >= 7)
-			maxDrag = 14;
+		if(stagenumber >= 10)
+			maxDrag = 20;
 		else
 			maxDrag = (stagenumber-1)*2;
 		
@@ -59,12 +59,12 @@ public class stagemgr {
 			showDrag = true;
 		
 		if(stagenumber != 1)
-			Main.pp.screenFlash(0);
+			mainmain.m.pp.screenFlash(0);
 		else
-			Main.pp.screenFlash(12);
+			mainmain.m.pp.screenFlash(12);
 		
-		Main.pp.bgColor = Main.pp.getColorFromNumber(stagenumber);
-		Main.pp.txtColor = Main.pp.getComplementOf(Main.pp.bgColor);
+		mainmain.m.pp.bgColor = mainmain.m.pp.getColorFromNumber(stagenumber);
+		mainmain.m.pp.txtColor = mainmain.m.pp.getComplementOf(mainmain.m.pp.bgColor);
 	}
 
 	public double getAngle() {

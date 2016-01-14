@@ -7,10 +7,10 @@ public class Skynet extends Robot{
 	public int angle = 0; //degrees
 	Thread mouseDragAndMoveCircle = new Thread(){
 		public void run(){
-			while(Main.pw.ongoing){
+			while(mainmain.m.pw.ongoing){
 				mouseMoveWithDrag();
-				if(Main.sm.circleSpeed != 0)
-					Main.pp.moveCircle();
+				if(mainmain.m.sm.circleSpeed != 0)
+					mainmain.m.pp.moveCircle();
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
@@ -28,14 +28,13 @@ public class Skynet extends Robot{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			while(Main.pw.ongoing){
+			while(mainmain.m.pw.ongoing){
 				try{
 					updateDrag();
 					try {
 						Thread.sleep(1500);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						//whatevs
 					}
 				}catch(NullPointerException e){
 					
@@ -45,8 +44,8 @@ public class Skynet extends Robot{
 	};
 	
 	public void updateDrag() throws NullPointerException{
-		if(Main.sm.maxDrag!=0)
-			drag = Math.random()*(Main.sm.maxDrag-1.0)+1.0;
+		if(mainmain.m.sm.maxDrag!=0)
+			drag = Math.random()*(mainmain.m.sm.maxDrag-1.0)+1.0;
 		angle = (int)(Math.random()*360);
 	}
 	
@@ -57,7 +56,7 @@ public class Skynet extends Robot{
 	}
 	
 	public void mouseMoveWithRespectToPanel(int x, int y){
-		super.mouseMove(x+Main.pp.getLocationOnScreen().x, y+Main.pp.getLocationOnScreen().y);
+		super.mouseMove(x+mainmain.m.pp.getLocationOnScreen().x, y+mainmain.m.pp.getLocationOnScreen().y);
 	}
 	
 	public void mouseMoveWithDrag(){

@@ -1,13 +1,81 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Networking {
 	static boolean online = true;
 	public static final String HOST = "localhost";
+	public static void main(String[] args){
+		try {
+			for(Integer i : getTopScores())
+				System.out.println(i);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	static ArrayList<Integer> getTopScores() throws IOException{
+		if(online){
+			URL url = new URL("http://"+HOST+"/Boards/getSortedScores.php");
+			BufferedReader in = new BufferedReader(
+			new InputStreamReader(url.openStream()));
+			System.out.println(url.toString());
+			ArrayList<Integer> scores = new ArrayList<Integer>();
+			
+			String inputLine;
+			inputLine=in.readLine();
+			if(inputLine.equals("0")){
+				System.out.println("error");
+				in.close();
+				return new ArrayList<Integer>(Arrays.asList(0));
+			}
+			scores.add(Integer.parseInt(inputLine));
+			inputLine=in.readLine();
+			while(inputLine != null){
+				scores.add(Integer.parseInt(inputLine));
+				inputLine=in.readLine();
+			}
+			in.close();
+			return scores;
+		}
+		return new ArrayList<Integer>(Arrays.asList(0));
+	}
+	
+	static ArrayList<String> getTopScorers() throws IOException{
+		if(online){
+			URL url = new URL("http://"+HOST+"/Boards/getSortedNames.php");
+			BufferedReader in = new BufferedReader(
+			new InputStreamReader(url.openStream()));
+			System.out.println(url.toString());
+			ArrayList<String> names = new ArrayList<String>();
+			
+			String inputLine;
+			inputLine=in.readLine();
+			if(inputLine.equals("0")){
+				System.out.println("error");
+				in.close();
+				return new ArrayList<String>(Arrays.asList("Guest"));
+			}
+			names.add(inputLine);
+			inputLine=in.readLine();
+			while(inputLine != null){
+				names.add(inputLine);
+				inputLine=in.readLine();
+			}
+			in.close();
+			return names;
+		}
+		return new ArrayList<String>(Arrays.asList("Guest"));
+	}
+	
+	
 	
 	static boolean changeScore(String username, int newScore) throws IOException, NoSuchAlgorithmException{
 		if(online){
@@ -97,7 +165,7 @@ public class Networking {
 	
 	static boolean makeNewUser(String name, String username) throws IOException, NoSuchAlgorithmException{
 		if(online){
-			URL url = new URL("http://"+HOST+"/Boards/newUser.php?name="+name+"&username="+username.replaceAll(" ", "+")
+			URL url = new URL("http://"+HOST+"/Boards/newUser.php?name="+name.replaceAll(" ", "+")+"&username="+username.replaceAll(" ", "+")
 			+"&" + "md5="+getTruncatedMD5(name+username));
 			System.out.println(url.toString());
 			BufferedReader in = new BufferedReader(

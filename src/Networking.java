@@ -16,7 +16,6 @@ public class Networking {
 			URL url = new URL("http://"+HOST+"/Boards/getSortedScores.php");
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader(url.openStream()));
-			System.out.println(url.toString());
 			ArrayList<Integer> scores = new ArrayList<Integer>();
 			
 			String inputLine;
@@ -51,7 +50,6 @@ public class Networking {
 			URL url = new URL("http://"+HOST+"/Boards/getSortedNames.php");
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader(url.openStream()));
-			System.out.println(url.toString());
 			ArrayList<String> names = new ArrayList<String>();
 			
 			String inputLine;
@@ -81,7 +79,6 @@ public class Networking {
 					+"&score="+newScore+"&md5="+getTruncatedMD5(username+Integer.toString(newScore)));
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader(url.openStream()));
-			System.out.println(url.toString());
 		
 			String inputLine;
 			inputLine=in.readLine();
@@ -165,7 +162,6 @@ public class Networking {
 		if(online){
 			URL url = new URL("http://"+HOST+"/Boards/newUser.php?name="+name.replaceAll(" ", "+")+"&username="+username.replaceAll(" ", "+")
 			+"&" + "md5="+getTruncatedMD5(name+username));
-			System.out.println(url.toString());
 			BufferedReader in = new BufferedReader(
 			new InputStreamReader(url.openStream()));
 		
@@ -206,7 +202,7 @@ public class Networking {
 	
 	static void updateGamesCounter() throws IOException{
 		if(online){
-			URL counterURL = new URL("http://garrett.comze.com/labrat_counter/update.php");
+			URL counterURL = new URL("http://"+HOST+"/labrat_counter/update.php");
 			counterURL.openStream();
 		}
 	}

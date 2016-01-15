@@ -14,6 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
@@ -144,6 +145,9 @@ public class Main {
 		pw.getContentPane().setCursor(Cursor.getDefaultCursor());
 		pw.setVisible(false);
 		pw = new playWindow("Lab Rat");
+		URL iconURL = this.getClass().getClassLoader().getResource("resources/smiley.png");
+		ImageIcon icon = new ImageIcon(iconURL);
+		pw.setIconImage(icon.getImage());
 		ip=new initPanel();
 		pw.add(ip);
 		pw.pack();

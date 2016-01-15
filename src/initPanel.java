@@ -183,13 +183,13 @@ public class initPanel extends JPanel{
 		if(darkerHighScores){
 			g2.setColor(Color.BLACK);
 		}else{
-			g2.setColor(Color.DARK_GRAY);
+			g2.setColor(Color.GRAY);
 		}
 		g2.drawString("High Scores", size.width/2-g2.getFontMetrics().stringWidth("High Scores")/2, size.height-120);
 		if(darkerCredits){
 			g2.setColor(Color.BLACK);
 		}else{
-			g2.setColor(Color.DARK_GRAY);
+			g2.setColor(Color.GRAY);
 		}
 		g2.drawString("Credits", size.width/2-g2.getFontMetrics().stringWidth("Credits")/2, size.height-70);
 	}

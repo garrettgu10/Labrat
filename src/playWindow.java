@@ -1,10 +1,5 @@
-import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -25,27 +20,27 @@ public class playWindow extends JFrame{
 			updatedHighScore = false;
 			if(score > mainmain.m.highScore){
 				updatedHighScore=true;
-				JOptionPane.showMessageDialog(this, "You beat your high score!\n"
-						+ "Your old high score was "+playPanel.formatTime(mainmain.m.highScore)+".\n"
-						+ "Your new high score was "+playPanel.formatTime(score)+".");
+				if(mainmain.m.highScore != 0){
+					JOptionPane.showMessageDialog(this, "Congrats! You beat your high score!\n"
+							+ "Your old high score was "+playPanel.formatTime(mainmain.m.highScore)+".\n"
+							+ "Your new high score is "+playPanel.formatTime(score)+".");
+				}else{
+					JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".");
+				}
 				try {
 					Networking.changeScore(mainmain.m.username, score);
 				} catch (NoSuchAlgorithmException | IOException e) {
 					e.printStackTrace();
 				}
 				mainmain.m.highScore = score;
+			}else{
+				JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".\n"
+						+ "You did not beat your high score.");
 			}
 			mainmain.m.pw.revalidate();
 			mainmain.m.pw.repaint();
 			Thread t = new Thread(){
 				public void run(){
-					if(!updatedHighScore){
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					}
 					mainmain.interruptThreads();
 					mainmain.m.init();
 				}

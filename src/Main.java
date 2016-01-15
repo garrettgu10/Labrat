@@ -14,6 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.sound.sampled.Clip;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
@@ -34,9 +35,19 @@ public class Main {
 	int highScore = 0;
 	String username = Networking.getUserName();
 	
+	public void drawBoard(){
+		new myPlayer(0,"Coin_Drop");
+		JFrame jf = new JFrame("High Score Board");
+		jf.setLocationRelativeTo (null);
+		jf.add(new boardPanel());
+		jf.pack();
+		jf.repaint();
+		jf.setVisible(true);
+	}
+	
 	private boolean netIsAvailable() {
 		try {
-			final URL url = new URL("http://www.google.com");
+			final URL url = new URL("http://"+secrets.host);
 			final URLConnection conn = url.openConnection();
 			conn.connect();
 			return true;
@@ -44,6 +55,35 @@ public class Main {
 			throw new RuntimeException(e);
 		} catch (IOException e) { 
 			return false; 
+		}
+	}
+	
+	public void displayCredits(){
+		new myPlayer(0,"Coin_Drop");
+		JOptionPane.showMessageDialog(null, "Coded by -- Garrett Gu\n\n"
+				+ "Other works used:\n"
+				+ "\tEmoji provided free by http://emojione.com\n"
+				+ "\t\t\tBy Attribution 4.0\n"
+				+ "\t\"Pinball Spring 160\" Kevin MacLeod (incompetech.com)\n"
+				+ "\t\t\tBy Attribution 3.0\n"
+				+ "\t\"Electrodoodle\" Kevin MacLeod (incompetech.com)\n"
+				+ "\t\t\tBy Attribution 3.0\n\n"
+				+ "http://creativecommons.org/licenses/by/4.0/\n"
+				+ "http://creativecommons.org/licenses/by/3.0/","Credits",JOptionPane.INFORMATION_MESSAGE);
+		new myPlayer(0,"Coin_Drop");
+	}
+	
+	public void displayDisclaimer(){
+		int response = JOptionPane.showConfirmDialog(null, "By using this software, you agree not to:\n"
+				+ "\tConnect extra peripherals to the computer to gain an advantage over others.\n"
+				+ "\tAttempt to hack the high score board.\n"
+				+ "\tUse a modified version of this software to gain an advantage over others.\n"
+				+ "\tDestroy the world in thermonuclear war.\n\n"
+				+ "This software is provided AS-IS.\n\n"
+				+ "Do you agree to the above terms?", "Licence Agreement", 
+				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		if(response == JOptionPane.CLOSED_OPTION || response == JOptionPane.NO_OPTION){
+			System.exit(1);
 		}
 	}
 	
@@ -57,21 +97,25 @@ public class Main {
 				name = Networking.getName(username);
 				highScore = Networking.getScore(username);
 			}else{
+				displayDisclaimer();
 				boolean valid = false;
 				String response = "Guest";
 				while(!valid){
 					response = JOptionPane.showInputDialog("Make a new player name!\n"
-							+ "Player names should be unique, and\n"
-							+ "you won't be able to make a new one later.");
-					if(response.equals("") || response == null){
-						JOptionPane.showMessageDialog(null, "Please enter a user name.");
+							+ "Player names should be unique and of length 5-15.\n"
+							+ "Please note that you won't be able to change it later.\n"
+							+ "Accounts with offensive/profane names will be removed.");
+					if(response == null || response.equals("")){
+						JOptionPane.showMessageDialog(null, "Please enter a player name.");
 						continue;
 					}
 					if(response.contains("+")){
-						JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character.");
+						JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character. Long story.");
+						continue;
 					}
 					if(response.length() > 15 || response.length() < 5){
 						JOptionPane.showMessageDialog(null, "Sorry, names must have length 5-15.");
+						continue;
 					}
 					valid = true;
 				}
@@ -86,9 +130,11 @@ public class Main {
 				"Do you want music and sound effects?\n"
 				+ "Please note that enabling music might help you with timing.",
 				"Music",JOptionPane.YES_NO_OPTION);
+		
 		if(musicyesno==JOptionPane.NO_OPTION){
 			myPlayer.play = false;
 		}
+		new myPlayer(0,"Coin_Drop");
 		pw = new playWindow("Window");
 		init();
 	}
@@ -97,11 +143,13 @@ public class Main {
 	public void init(){
 		pw.getContentPane().setCursor(Cursor.getDefaultCursor());
 		pw.setVisible(false);
-		pw = new playWindow("Window");
+		pw = new playWindow("Lab Rat");
 		ip=new initPanel();
 		pw.add(ip);
 		pw.pack();
-		pw.getContentPane().addMouseListener(new initMouseListener());
+		initMouseListener iml = new initMouseListener();
+		pw.getContentPane().addMouseListener(iml);
+		pw.getContentPane().addMouseMotionListener(iml);
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		pw.pack();
 		pw.setVisible(true);
@@ -175,6 +223,12 @@ public class Main {
 	}
 	
 	public void begin(){
+		try {
+			Networking.updateGamesCounter();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		pw.ongoing = true;
 		gameMusic.stop();
 		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Pinball_Spring_160");
@@ -192,7 +246,6 @@ public class Main {
 			e1.printStackTrace();
 		}
 		sm.incrementer.start();
-		pw.addKeyListener(new gKeyListener());
 		pw.addFocusListener(new gFocusListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);

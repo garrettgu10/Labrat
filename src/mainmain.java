@@ -17,11 +17,5 @@ public class mainmain {
 		m.skynet.dragUpdater.interrupt();
 		m.refresher.interrupt();
 	}
-	
-	public static void newMain(){
-		interruptThreads();
-		m = new Main();
-		m.main(0);
-	}
 
 }

@@ -1,16 +1,20 @@
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
-class initMouseListener implements MouseListener{
+class initMouseListener implements MouseListener,MouseMotionListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -47,6 +51,14 @@ class initMouseListener implements MouseListener{
 				}
 			};
 			t.start();
+			
+			
+		}
+		if(initPanel.boardButton.contains(e.getX(),e.getY())){
+			mainmain.m.drawBoard();
+		}
+		if(initPanel.creditsButton.contains(e.getX(),e.getY())){
+			mainmain.m.displayCredits();
 		}
 	}
 
@@ -69,13 +81,35 @@ class initMouseListener implements MouseListener{
 	public void mouseExited(MouseEvent e) {
 		
 	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		Point p = new Point(e.getX(),e.getY());
+		if(initPanel.boardButton.contains(p)){
+			initPanel.darkerHighScores = true;
+		}else{
+			initPanel.darkerHighScores = false;
+		}
+		if(initPanel.creditsButton.contains(p)){
+			initPanel.darkerCredits = true;
+		}else{
+			initPanel.darkerCredits = false;
+		}
+	}
 }
 
 public class initPanel extends JPanel{
 	private static final long serialVersionUID = -5493285222798401915L;
 	Font titleFont = new Font("Courier",Font.PLAIN,100);
 	public static final int u = 15; //unit of size
-	Dimension size = new Dimension(95*u,50*u);
+	static Dimension size = new Dimension(95*u,50*u);
 	public static final double cospi6 = Math.sqrt(3)/2;
 	public static final double sinpi6 = 0.5;
 	Polygon playButton = new Polygon(new int[] {size.width/2+50,
@@ -105,6 +139,20 @@ public class initPanel extends JPanel{
 	String name;
 	String score;
 	public static final Font plainFont = new Font("Calibri",Font.PLAIN,20);
+	public static final Font boardButtonFont = new Font("Calibri",Font.PLAIN,35);
+	static Canvas c = new Canvas();
+	public static final Rectangle boardButton = new Rectangle(
+			size.width/2-c.getFontMetrics(boardButtonFont).stringWidth("High Scores")/2,
+			size.height-145,
+			c.getFontMetrics(boardButtonFont).stringWidth("High Scores"),
+			35);
+	public static final Rectangle creditsButton = new Rectangle(
+			size.width/2-c.getFontMetrics(boardButtonFont).stringWidth("High Scores")/2,
+			size.height-100,
+			c.getFontMetrics(boardButtonFont).stringWidth("High Scores"),
+			35);
+	static boolean darkerHighScores = false;
+	static boolean darkerCredits = false;
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
@@ -129,8 +177,21 @@ public class initPanel extends JPanel{
 		name = "Name: "+mainmain.m.name;
 		score = "High score: "+playPanel.formatTime(mainmain.m.highScore);
 		g2.setFont(plainFont);
-		g2.drawString(name, size.width/2-g2.getFontMetrics().stringWidth(name)/2, size.height/4*3);
-		g2.drawString(score, size.width/2-g2.getFontMetrics().stringWidth(score)/2, size.height/4*3+30);
+		g2.drawString(name, size.width/2-g2.getFontMetrics().stringWidth(name)/2, size.height/4*3-30);
+		g2.drawString(score, size.width/2-g2.getFontMetrics().stringWidth(score)/2, size.height/4*3);
+		g2.setFont(boardButtonFont);
+		if(darkerHighScores){
+			g2.setColor(Color.BLACK);
+		}else{
+			g2.setColor(Color.DARK_GRAY);
+		}
+		g2.drawString("High Scores", size.width/2-g2.getFontMetrics().stringWidth("High Scores")/2, size.height-120);
+		if(darkerCredits){
+			g2.setColor(Color.BLACK);
+		}else{
+			g2.setColor(Color.DARK_GRAY);
+		}
+		g2.drawString("Credits", size.width/2-g2.getFontMetrics().stringWidth("Credits")/2, size.height-70);
 	}
 	Polygon generatePlayButton(int s){
 		return generatePlayButton(s,0,0);

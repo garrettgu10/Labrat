@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,16 +9,7 @@ import java.util.Arrays;
 
 public class Networking {
 	static boolean online = true;
-	public static final String HOST = "localhost";
-	public static void main(String[] args){
-		try {
-			for(Integer i : getTopScores())
-				System.out.println(i);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	public static final String HOST = secrets.host;
 	
 	static ArrayList<Integer> getTopScores() throws IOException{
 		if(online){
@@ -36,10 +26,18 @@ public class Networking {
 				in.close();
 				return new ArrayList<Integer>(Arrays.asList(0));
 			}
-			scores.add(Integer.parseInt(inputLine));
-			inputLine=in.readLine();
-			while(inputLine != null){
+			try{
 				scores.add(Integer.parseInt(inputLine));
+			}catch(Exception e){
+				scores.add(0);
+			}
+			inputLine=in.readLine();
+			while(inputLine != null && !inputLine.equals("")){
+				try{
+					scores.add(Integer.parseInt(inputLine));
+				}catch(Exception e){
+					scores.add(0);
+				}
 				inputLine=in.readLine();
 			}
 			in.close();
@@ -65,7 +63,7 @@ public class Networking {
 			}
 			names.add(inputLine);
 			inputLine=in.readLine();
-			while(inputLine != null){
+			while(inputLine != null && !inputLine.equals("")){
 				names.add(inputLine);
 				inputLine=in.readLine();
 			}
@@ -203,12 +201,12 @@ public class Networking {
 	}
 	
 	static String getTruncatedMD5(String m) throws NoSuchAlgorithmException{
-		return getMD5(m+Salt.salt).substring(0,10);
+		return getMD5(m+secrets.salt).substring(0,10);
 	}
 	
 	static void updateGamesCounter() throws IOException{
 		if(online){
-			URL counterURL = new URL("http://garrett.comze.com/advertisement/");
+			URL counterURL = new URL("http://garrett.comze.com/labrat_counter/update.php");
 			counterURL.openStream();
 		}
 	}

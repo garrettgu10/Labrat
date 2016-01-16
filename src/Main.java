@@ -71,6 +71,8 @@ public class Main {
 				+ "\t\"Pinball Spring 160\" Kevin MacLeod (incompetech.com)\n"
 				+ "\t\t\tBy Attribution 3.0\n"
 				+ "\t\"Electrodoodle\" Kevin MacLeod (incompetech.com)\n"
+				+ "\t\t\tBy Attribution 3.0\n"
+				+ "\t\"Game Over 02\" Notchfilter (freesound.org)\n"
 				+ "\t\t\tBy Attribution 3.0\n\n"
 				+ "http://creativecommons.org/licenses/by/4.0/\n"
 				+ "http://creativecommons.org/licenses/by/3.0/","Credits",JOptionPane.INFORMATION_MESSAGE);

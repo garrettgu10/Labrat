@@ -17,15 +17,18 @@ public class playWindow extends JFrame{
 		if(ongoing){
 			ongoing = false;
 			mainmain.m.gameMusic.stop();
+			new myPlayer(0,"game_over");
 			updatedHighScore = false;
 			if(score > mainmain.m.highScore){
 				updatedHighScore=true;
 				if(mainmain.m.highScore != 0){
 					JOptionPane.showMessageDialog(this, "Congrats! You beat your high score!\n"
 							+ "Your old high score was "+playPanel.formatTime(mainmain.m.highScore)+".\n"
-							+ "Your new high score is "+playPanel.formatTime(score)+".");
+							+ "Your new high score is "+playPanel.formatTime(score)+".","Game Over",
+							JOptionPane.INFORMATION_MESSAGE);
 				}else{
-					JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".");
+					JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".",
+							"Game Over",JOptionPane.INFORMATION_MESSAGE);
 				}
 				Thread t = new Thread(){
 					public void run(){
@@ -40,7 +43,8 @@ public class playWindow extends JFrame{
 				mainmain.m.highScore = score;
 			}else{
 				JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".\n"
-						+ "You did not beat your high score.");
+						+ "You did not beat your high score.","Game Over",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 			mainmain.m.pw.revalidate();
 			mainmain.m.pw.repaint();

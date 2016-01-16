@@ -17,6 +17,8 @@ import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 public class Main {
@@ -39,9 +41,10 @@ public class Main {
 	public void drawBoard(){
 		new myPlayer(0,"Coin_Drop");
 		JFrame jf = new JFrame("High Score Board");
-		jf.setLocationRelativeTo (null);
+		jf.setResizable(false);
 		jf.add(new boardPanel());
 		jf.pack();
+		jf.setLocationRelativeTo(null);
 		jf.repaint();
 		jf.setVisible(true);
 	}
@@ -92,23 +95,29 @@ public class Main {
 		}
 	}
 	
-	String elicitName(){
+	String elicitName(boolean crucial){
 		boolean valid = false;
 		String response = "Guest";
 		while(!valid){
-			response = JOptionPane.showInputDialog("Make a new player name!\n"
+			response = JOptionPane.showInputDialog(null,"Make a new player name!\n"
 					+ "Player names should be unique and of length 5-20.\n"
-					+ "Accounts with offensive/profane names will be removed.");
+					+ "Accounts with offensive/profane names will be removed.","Name",JOptionPane.QUESTION_MESSAGE);
 			if(response == null || response.equals("")){
-				JOptionPane.showMessageDialog(null, "Please enter a player name.");
-				continue;
+				if(crucial){
+					JOptionPane.showMessageDialog(null, "Please enter a player name.","Error",JOptionPane.ERROR_MESSAGE);
+					continue;
+				}else{
+					response = name;
+				}
 			}
 			if(response.contains("+")){
-				JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character. Long story.");
+				JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character. Long story.",
+						"Error",JOptionPane.ERROR_MESSAGE);
 				continue;
 			}
-			if(response.length() > 15 || response.length() < 5){
-				JOptionPane.showMessageDialog(null, "Sorry, names must have length 5-15.");
+			if(response.length() > 20 || response.length() < 5){
+				JOptionPane.showMessageDialog(null, "Sorry, names must have length 5-20.",
+						"Error",JOptionPane.ERROR_MESSAGE);
 				continue;
 			}
 			valid = true;
@@ -117,7 +126,7 @@ public class Main {
 	}
 	
 	void updateName(){
-		String newName = elicitName();
+		String newName = elicitName(false);
 		Thread t = new Thread(){
 			public void run(){
 				try {
@@ -133,6 +142,12 @@ public class Main {
 	}
 	
 	public void main(int music) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e2) {
+			//whatevs
+		}
 		if(!netIsAvailable()){
 			JOptionPane.showMessageDialog(null, "Internet is not available. \nProgress will not be saved.");
 			Networking.online=false;
@@ -143,7 +158,7 @@ public class Main {
 				highScore = Networking.getScore(username);
 			}else{
 				displayDisclaimer();
-				String response = elicitName();
+				String response = elicitName(true);
 				Networking.makeNewUser(response,username);
 				name = Networking.getName(username);
 				highScore = Networking.getScore(username);
@@ -168,6 +183,7 @@ public class Main {
 	public void init(){
 		pw.getContentPane().setCursor(Cursor.getDefaultCursor());
 		pw.setVisible(false);
+		pw.setResizable(false);
 		pw = new playWindow("Lab Rat");
 		URL iconURL = this.getClass().getClassLoader().getResource("resources/smiley.png");
 		ImageIcon icon = new ImageIcon(iconURL);
@@ -175,6 +191,7 @@ public class Main {
 		ip=new initPanel();
 		pw.add(ip);
 		pw.pack();
+		pw.setLocationRelativeTo(null);
 		initMouseListener iml = new initMouseListener();
 		pw.getContentPane().addMouseListener(iml);
 		pw.getContentPane().addMouseMotionListener(iml);

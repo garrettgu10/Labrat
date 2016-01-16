@@ -40,6 +40,11 @@ public class playPanel extends JPanel{
 		public void run(){
 			Point mousePosition;
 			while(true){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// whatevs
+				}
 				try{
 					mousePosition = getMousePosition();
 					if(Math.pow(mousePosition.x-mainmain.m.pp.circleCenter.x,2) + 

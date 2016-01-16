@@ -75,17 +75,61 @@ public class Main {
 	}
 	
 	public void displayDisclaimer(){
-		int response = JOptionPane.showConfirmDialog(null, "By using this software, you agree not to:\n"
+		int response = JOptionPane.showConfirmDialog(null, 
+					"By using this software, you agree not to:\n"
 				+ "\tConnect extra peripherals to the computer to gain an advantage over others.\n"
 				+ "\tAttempt to hack the high score board.\n"
 				+ "\tUse a modified version of this software to gain an advantage over others.\n"
+				+ "\tUse other software in conjunction with this software in order to gain an advantage over others.\n"
+				+ "\tAttempt to find loopholes in the software in order to gain an advantage over others.\n"
 				+ "\tDestroy the world in thermonuclear war.\n\n"
+				+ "\tAccounts violating this agreement will be removed.\n"
 				+ "This software is provided AS-IS.\n\n"
-				+ "Do you agree to the above terms?", "Licence Agreement", 
+				+ "DO YOU AGREE TO THE ABOVE TERMS?", "Licence Agreement", 
 				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		if(response == JOptionPane.CLOSED_OPTION || response == JOptionPane.NO_OPTION){
 			System.exit(1);
 		}
+	}
+	
+	String elicitName(){
+		boolean valid = false;
+		String response = "Guest";
+		while(!valid){
+			response = JOptionPane.showInputDialog("Make a new player name!\n"
+					+ "Player names should be unique and of length 5-20.\n"
+					+ "Accounts with offensive/profane names will be removed.");
+			if(response == null || response.equals("")){
+				JOptionPane.showMessageDialog(null, "Please enter a player name.");
+				continue;
+			}
+			if(response.contains("+")){
+				JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character. Long story.");
+				continue;
+			}
+			if(response.length() > 15 || response.length() < 5){
+				JOptionPane.showMessageDialog(null, "Sorry, names must have length 5-15.");
+				continue;
+			}
+			valid = true;
+		}
+		return response;
+	}
+	
+	void updateName(){
+		String newName = elicitName();
+		Thread t = new Thread(){
+			public void run(){
+				try {
+					Networking.updateName(newName, username);
+				} catch (NoSuchAlgorithmException | IOException e) {
+					//whatevs
+				}
+			}
+		};
+		t.start();
+		System.out.println(newName);
+		name=newName;
 	}
 	
 	public void main(int music) {
@@ -99,27 +143,7 @@ public class Main {
 				highScore = Networking.getScore(username);
 			}else{
 				displayDisclaimer();
-				boolean valid = false;
-				String response = "Guest";
-				while(!valid){
-					response = JOptionPane.showInputDialog("Make a new player name!\n"
-							+ "Player names should be unique and of length 5-15.\n"
-							+ "Please note that you won't be able to change it later.\n"
-							+ "Accounts with offensive/profane names will be removed.");
-					if(response == null || response.equals("")){
-						JOptionPane.showMessageDialog(null, "Please enter a player name.");
-						continue;
-					}
-					if(response.contains("+")){
-						JOptionPane.showMessageDialog(null, "Sorry, names cannot contain the + character. Long story.");
-						continue;
-					}
-					if(response.length() > 15 || response.length() < 5){
-						JOptionPane.showMessageDialog(null, "Sorry, names must have length 5-15.");
-						continue;
-					}
-					valid = true;
-				}
+				String response = elicitName();
 				Networking.makeNewUser(response,username);
 				name = Networking.getName(username);
 				highScore = Networking.getScore(username);
@@ -227,12 +251,17 @@ public class Main {
 	}
 	
 	public void begin(){
-		try {
-			Networking.updateGamesCounter();
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		Thread t = new Thread(){
+			public void run(){
+				try {
+					Networking.updateGamesCounter();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			}
+		};
+		t.start();
 		pw.ongoing = true;
 		gameMusic.stop();
 		gameMusic = new myPlayer(Clip.LOOP_CONTINUOUSLY,"Pinball_Spring_160");
@@ -256,7 +285,7 @@ public class Main {
 		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 			blankCursorImg, new Point(0, 0), "blank cursor");
 		pw.getContentPane().setCursor(blankCursor);
-		//skynet.mouseMove(pp.circleCenter.x, pp.circleCenter.y);
+		skynet.mouseMoveWithRespectToPanel(pp.circleCenter.x, pp.circleCenter.y);
 		pp.addMouseMotionListener(new gMouseMotionListener());
 		Thread refresher = new Thread(){
 			public void run(){

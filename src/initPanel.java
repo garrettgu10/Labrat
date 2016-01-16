@@ -60,6 +60,9 @@ class initMouseListener implements MouseListener,MouseMotionListener{
 		if(initPanel.creditsButton.contains(e.getX(),e.getY())){
 			mainmain.m.displayCredits();
 		}
+		if(initPanel.changeNameButton.contains(e.getX(),e.getY())){
+			mainmain.m.updateName();
+		}
 	}
 
 	@Override
@@ -101,6 +104,11 @@ class initMouseListener implements MouseListener,MouseMotionListener{
 			initPanel.darkerCredits = true;
 		}else{
 			initPanel.darkerCredits = false;
+		}
+		if(initPanel.changeNameButton.contains(p)){
+			initPanel.darkerChangeName=true;
+		}else{
+			initPanel.darkerChangeName=false;
 		}
 	}
 }
@@ -151,8 +159,14 @@ public class initPanel extends JPanel{
 			size.height-100,
 			c.getFontMetrics(boardButtonFont).stringWidth("High Scores"),
 			35);
+	public static final Rectangle changeNameButton = new Rectangle(
+			size.width/2-c.getFontMetrics(plainFont).stringWidth("Change Name")/2,
+			size.height*3/4-5,
+			c.getFontMetrics(plainFont).stringWidth("Change Name"),
+			20);
 	static boolean darkerHighScores = false;
 	static boolean darkerCredits = false;
+	static boolean darkerChangeName = false;
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
@@ -177,8 +191,15 @@ public class initPanel extends JPanel{
 		name = "Name: "+mainmain.m.name;
 		score = "High score: "+playPanel.formatTime(mainmain.m.highScore);
 		g2.setFont(plainFont);
-		g2.drawString(name, size.width/2-g2.getFontMetrics().stringWidth(name)/2, size.height/4*3-30);
-		g2.drawString(score, size.width/2-g2.getFontMetrics().stringWidth(score)/2, size.height/4*3);
+		g2.drawString(name, size.width/2-g2.getFontMetrics().stringWidth(name)/2, size.height/4*3-60);
+		g2.drawString(score, size.width/2-g2.getFontMetrics().stringWidth(score)/2, size.height/4*3-30);
+		
+		if(darkerChangeName){
+			g2.setColor(Color.BLACK);
+		}else{
+			g2.setColor(Color.GRAY);
+		}
+		g2.drawString("Change Name",size.width/2-g2.getFontMetrics().stringWidth("Change Name")/2, size.height/4*3+10);
 		g2.setFont(boardButtonFont);
 		if(darkerHighScores){
 			g2.setColor(Color.BLACK);

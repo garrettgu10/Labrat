@@ -27,11 +27,16 @@ public class playWindow extends JFrame{
 				}else{
 					JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".");
 				}
-				try {
-					Networking.changeScore(mainmain.m.username, score);
-				} catch (NoSuchAlgorithmException | IOException e) {
-					e.printStackTrace();
-				}
+				Thread t = new Thread(){
+					public void run(){
+						try {
+							Networking.changeScore(mainmain.m.username, score);
+						} catch (NoSuchAlgorithmException | IOException e) {
+							e.printStackTrace();
+						}
+					}
+				};
+				t.start();
 				mainmain.m.highScore = score;
 			}else{
 				JOptionPane.showMessageDialog(this, "Your score is "+playPanel.formatTime(score)+".\n"

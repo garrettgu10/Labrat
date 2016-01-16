@@ -34,10 +34,10 @@ public class stagemgr {
 	
 	public void changeStage(int stagenumber){
 		this.stagenumber = stagenumber;
-		if(stagenumber >= 10)
-			maxDrag = 20;
+		if(stagenumber >= 15)
+			maxDrag = 15;
 		else
-			maxDrag = (stagenumber-1)*2;
+			maxDrag = (stagenumber-1);
 		
 		if(stagenumber < 4)
 			circleRadius = 15*playPanel.u;

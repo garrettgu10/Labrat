@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -154,6 +155,27 @@ public class Networking {
 			System.out.println("user does exist");
 			in.close();
 			return true;
+		}
+		return true;
+	}
+	
+	static boolean updateName(String name, String username) throws NoSuchAlgorithmException, IOException{
+		if(online){
+			URL url = new URL("http://"+HOST+"/Boards/updateName.php?name="+name.replaceAll(" ", "+")
+					+ "&username="+username.replaceAll(" ", "+")
+					+"&" + "md5="+getTruncatedMD5(name+username));
+			BufferedReader in = new BufferedReader(
+			new InputStreamReader(url.openStream()));
+		
+			String inputLine;
+			inputLine=in.readLine();
+			if(inputLine.equals("0")){
+				System.out.println("success");
+				in.close();
+				return true;
+			}
+			in.close();
+			return false;
 		}
 		return true;
 	}

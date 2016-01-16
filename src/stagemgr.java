@@ -13,7 +13,7 @@ public class stagemgr {
 					if(stagenumber == 1)
 						Thread.sleep(5400);
 					else if(stagenumber == 2)
-						Thread.sleep(6600);
+						Thread.sleep(6000);
 					else
 						Thread.sleep(12000);
 				} catch (InterruptedException e) {

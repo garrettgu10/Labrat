@@ -85,10 +85,10 @@ public class Main {
 				+ "\tConnect extra peripherals to the computer to gain an advantage over others.\n"
 				+ "\tAttempt to hack the high score board.\n"
 				+ "\tUse a modified version of this software to gain an advantage over others.\n"
-				+ "\tUse other software in conjunction with this software in order to gain an advantage over others.\n"
+				+ "\tUse other software in conjunction with this software to gain an advantage over others.\n"
 				+ "\tAttempt to find loopholes in the software in order to gain an advantage over others.\n"
 				+ "\tDestroy the world in thermonuclear war.\n\n"
-				+ "\tAccounts violating this agreement will be removed.\n"
+				+ "Accounts violating this agreement will be removed.\n"
 				+ "This software is provided AS-IS.\n\n"
 				+ "DO YOU AGREE TO THE ABOVE TERMS?", "Licence Agreement", 
 				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -106,8 +106,7 @@ public class Main {
 					+ "Accounts with offensive/profane names will be removed.","Name",JOptionPane.QUESTION_MESSAGE);
 			if(response == null || response.equals("")){
 				if(crucial){
-					JOptionPane.showMessageDialog(null, "Please enter a player name.","Error",JOptionPane.ERROR_MESSAGE);
-					continue;
+					System.exit(0);
 				}else{
 					response = name;
 				}
@@ -185,8 +184,8 @@ public class Main {
 	public void init(){
 		pw.getContentPane().setCursor(Cursor.getDefaultCursor());
 		pw.setVisible(false);
-		pw.setResizable(false);
 		pw = new playWindow("Lab Rat");
+		pw.setResizable(false);
 		URL iconURL = this.getClass().getClassLoader().getResource("resources/smiley.png");
 		ImageIcon icon = new ImageIcon(iconURL);
 		pw.setIconImage(icon.getImage());

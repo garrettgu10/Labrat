@@ -64,7 +64,8 @@ public class Main {
 	
 	public void displayCredits(){
 		new myPlayer(0,"Coin_Drop");
-		JOptionPane.showMessageDialog(null, "Coded by -- Garrett Gu\n\n"
+		JOptionPane.showMessageDialog(null, "Coded by -- Garrett Gu\n"
+				+ "\tCode under CC Attribution 4.0\n\n"
 				+ "Other works used:\n"
 				+ "\tEmoji provided free by http://emojione.com\n"
 				+ "\t\t\tBy Attribution 4.0\n"
@@ -81,15 +82,15 @@ public class Main {
 	
 	public void displayDisclaimer(){
 		int response = JOptionPane.showConfirmDialog(null, 
-					"By using this software, you agree not to:\n"
+				"By using this software, you agree not to:\n"
 				+ "\tConnect extra peripherals to the computer to gain an advantage over others.\n"
-				+ "\tAttempt to hack the high score board.\n"
+				+ "\tAttempt to modify the high score board with unauthorized software.\n"
 				+ "\tUse a modified version of this software to gain an advantage over others.\n"
 				+ "\tUse other software in conjunction with this software to gain an advantage over others.\n"
-				+ "\tAttempt to find loopholes in the software in order to gain an advantage over others.\n"
+				+ "\tAttempt to find flaws in the software in order to gain an advantage over others.\n"
 				+ "\tDestroy the world in thermonuclear war.\n\n"
 				+ "Accounts violating this agreement will be removed.\n"
-				+ "This software is provided AS-IS.\n\n"
+				+ "This software is provided AS-IS, with no warranty of any kind.\n\n"
 				+ "DO YOU AGREE TO THE ABOVE TERMS?", "Licence Agreement", 
 				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 		if(response == JOptionPane.CLOSED_OPTION || response == JOptionPane.NO_OPTION){

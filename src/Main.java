@@ -1,10 +1,10 @@
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -28,7 +29,7 @@ public class Main {
 	initPanel ip = new initPanel();
 	stagemgr sm;
 	myPlayer gameMusic;
-	public static final int framerate = 50;
+	public static final int framerate = 55;
 	
 	Thread t;
 	int tempAlpha;
@@ -77,7 +78,6 @@ public class Main {
 				+ "\t\t\tBy Attribution 3.0\n\n"
 				+ "http://creativecommons.org/licenses/by/4.0/\n"
 				+ "http://creativecommons.org/licenses/by/3.0/","Credits",JOptionPane.INFORMATION_MESSAGE);
-		new myPlayer(0,"Coin_Drop");
 	}
 	
 	public void displayDisclaimer(){
@@ -104,7 +104,7 @@ public class Main {
 		while(!valid){
 			response = JOptionPane.showInputDialog(null,"Make a new player name!\n"
 					+ "Player names should be unique and of length 5-20.\n"
-					+ "Accounts with offensive/profane names will be removed.","Name",JOptionPane.QUESTION_MESSAGE);
+					+ "Names containing profanity/offensive language will be removed.","Name",JOptionPane.QUESTION_MESSAGE);
 			if(response == null || response.equals("")){
 				if(crucial){
 					System.exit(0);
@@ -128,6 +128,7 @@ public class Main {
 	}
 	
 	void updateName(){
+		new myPlayer(0,"Coin_Drop");
 		String newName = elicitName(false);
 		Thread t = new Thread(){
 			public void run(){
@@ -300,10 +301,15 @@ public class Main {
 		sm.incrementer.start();
 		pw.addFocusListener(new gFocusListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		BufferedImage blankCursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-			blankCursorImg, new Point(0, 0), "blank cursor");
-		pw.getContentPane().setCursor(blankCursor);
+		URL characterURL = this.getClass().getClassLoader().getResource("resources/smiley_30x30.png");
+		try {
+			Image characterImg = ImageIO.read(characterURL);
+			Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+					characterImg, new Point(15, 15), "character cursor");
+			pw.getContentPane().setCursor(blankCursor);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		skynet.mouseMoveWithRespectToPanel(pp.circleCenter.x, pp.circleCenter.y);
 		pp.addMouseMotionListener(new gMouseMotionListener());
 		Thread refresher = new Thread(){

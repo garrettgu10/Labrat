@@ -5,7 +5,7 @@ public class gMouseMotionListener implements MouseMotionListener{
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		
+		this.mouseMoved(e);
 	}
 
 	@Override

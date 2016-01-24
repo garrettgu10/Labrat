@@ -33,7 +33,7 @@ public class playPanel extends JPanel{
 	public static final int ARROW_SIZE = u;
 	double displayedDrag = 0;
 	double displayedAngle = 0;
-	public static final double changeSpeed = 4; //higher is slower
+	public static final double changeSpeed = 3; //higher is slower
 	int opacity = 0;
 	Image character;
 	Thread stopTheCheatrz = new Thread() {
@@ -41,7 +41,7 @@ public class playPanel extends JPanel{
 			Point mousePosition;
 			while(true){
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(500);
 				} catch (InterruptedException e1) {
 					// whatevs
 				}
@@ -56,7 +56,7 @@ public class playPanel extends JPanel{
 					//whatevs -- who's Chris?
 				}
 				try {
-					Thread.sleep(500);
+					Thread.sleep(250);
 				} catch (InterruptedException e) {
 					//whatevs
 				}
@@ -116,7 +116,8 @@ public class playPanel extends JPanel{
 		g2.setColor(Color.DARK_GRAY);
 		if(mainmain.m.skynet.drag != 0 && mainmain.m.sm.showDrag)
 			drawDrag(g2);
-		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
+		if(!mainmain.m.pw.ongoing)
+			g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		g2.setColor(new Color(255,255,255,opacity*20));
 		g2.fillRect(0, 0, size.width, size.height);
 	}
@@ -153,9 +154,8 @@ public class playPanel extends JPanel{
 	public String getTimeElapsed(){
 		if(mainmain.m.pw.ongoing){
 			long millis = System.currentTimeMillis()-startTime;
-			int second = (int)millis / 1000;
 	
-			time = String.format("%d:%02d", second, millis%1000/10);
+			time = formatTime(millis);
 		}
 		return time;
 	}
@@ -163,8 +163,7 @@ public class playPanel extends JPanel{
 	public static String formatTime(long millis){
 		int second = (int)millis / 1000;
 		
-		String time = String.format("%d:%02d", second, millis%1000/10);
-		return time;
+		return String.format("%d:%02d", second, millis%1000/10);
 	}
 	
 	public void startTimer(){

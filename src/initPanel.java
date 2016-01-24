@@ -15,11 +15,12 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JPanel;
 
 class initMouseListener implements MouseListener,MouseMotionListener{
+	Thread t = null;
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(mainmain.m.ip.playButton.contains(e.getX(),e.getY())){
-			Thread t = new Thread(){
+		if(mainmain.m.ip.playButton.contains(e.getX(),e.getY()) && t==null){
+			t = new Thread(){
 				int temp = 255;
 				public void run(){
 					temp = 255;
@@ -51,8 +52,6 @@ class initMouseListener implements MouseListener,MouseMotionListener{
 				}
 			};
 			t.start();
-			
-			
 		}
 		if(initPanel.boardButton.contains(e.getX(),e.getY())){
 			mainmain.m.drawBoard();

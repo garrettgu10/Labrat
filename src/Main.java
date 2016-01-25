@@ -1,10 +1,10 @@
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,7 +13,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.imageio.ImageIO;
 import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -29,7 +28,7 @@ public class Main {
 	initPanel ip = new initPanel();
 	stagemgr sm;
 	myPlayer gameMusic;
-	public static final int framerate = 55;
+	public static final int framerate = 60;
 	
 	Thread t;
 	int tempAlpha;
@@ -209,14 +208,15 @@ public class Main {
 			public void run(){
 				tempAlpha = 250;
 				while(!pw.ongoing){
-					if(tempAlpha > 0){
-						ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
-								ip.bgPlayColor.getGreen(),
-								ip.bgPlayColor.getBlue(),tempAlpha);
-						tempAlpha = ip.bgPlayColor.getAlpha()-12;
-						ip.bgPlaySize += 30;
-						ip.bgAngle +=0.05;
+					ip.bgPlayColor = new Color(ip.bgPlayColor.getRed(),
+							ip.bgPlayColor.getGreen(),
+							ip.bgPlayColor.getBlue(),tempAlpha);
+					tempAlpha -= 12;
+					if(tempAlpha < 0){
+						tempAlpha = 0;
 					}
+					ip.bgPlaySize += 30;
+					ip.bgAngle +=0.05;
 					pw.revalidate();
 					pw.repaint();
 					try {
@@ -301,15 +301,10 @@ public class Main {
 		sm.incrementer.start();
 		pw.addFocusListener(new gFocusListener());
 		pw.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		URL characterURL = this.getClass().getClassLoader().getResource("resources/smiley_30x30.png");
-		try {
-			Image characterImg = ImageIO.read(characterURL);
-			Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-					characterImg, new Point(15, 15), "character cursor");
-			pw.getContentPane().setCursor(blankCursor);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				cursorImg, new Point(0, 0), "blank cursor");
+		pw.getContentPane().setCursor(blankCursor);
 		skynet.mouseMoveWithRespectToPanel(pp.circleCenter.x, pp.circleCenter.y);
 		pp.addMouseMotionListener(new gMouseMotionListener());
 		Thread refresher = new Thread(){

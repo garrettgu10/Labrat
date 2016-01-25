@@ -116,8 +116,8 @@ public class playPanel extends JPanel{
 		g2.setColor(Color.DARK_GRAY);
 		if(mainmain.m.skynet.drag != 0 && mainmain.m.sm.showDrag)
 			drawDrag(g2);
-		if(!mainmain.m.pw.ongoing)
-			g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
+		//if(!mainmain.m.pw.ongoing)
+		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		g2.setColor(new Color(255,255,255,opacity*20));
 		g2.fillRect(0, 0, size.width, size.height);
 	}

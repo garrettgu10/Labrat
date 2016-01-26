@@ -170,7 +170,8 @@ public class Main {
 		}
 		int musicyesno = JOptionPane.showConfirmDialog(null,
 				"Do you want music and sound effects?\n"
-				+ "Please note that enabling music might help you with timing.",
+				+ "Please note that enabling music might help you with timing.\n"
+				+ "Headphones are recommended.",
 				"Music",JOptionPane.YES_NO_OPTION);
 		
 		if(musicyesno==JOptionPane.NO_OPTION){

@@ -168,6 +168,12 @@ public class Main {
 		} catch (IOException | NoSuchAlgorithmException e) {
 			//whatevs
 		}
+		if(highScore < 0){
+			JOptionPane.showMessageDialog(null, "Sorry, your account has been banned.\n"
+					+ "Contact Garrett Gu to lift ban.\n"
+					+ "garrettgu777@gmail.com", "Banned", JOptionPane.ERROR_MESSAGE);
+			System.exit(2);
+		}
 		int musicyesno = JOptionPane.showConfirmDialog(null,
 				"Do you want music and sound effects?\n"
 				+ "Please note that enabling music might help you with timing.\n"

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.net.URL;
@@ -89,6 +90,7 @@ public class playPanel extends JPanel{
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(mainmain.m.pw.ongoing)
 			g2.setColor(bgColor);
 		else
@@ -145,10 +147,9 @@ public class playPanel extends JPanel{
 		AffineTransform at = AffineTransform.getTranslateInstance(circleCenter.x,circleCenter.y);
 		at.concatenate(AffineTransform.getRotateInstance(2*Math.PI-angle/180*Math.PI));
 		g2.transform(at);
-
 		g2.drawLine(-l/2, 0, l/2, 0);
-		g2.fillPolygon(new int[] {l/2, l/2-ARROW_SIZE, l/2-ARROW_SIZE, l/2},
-			new int[] {0, -ARROW_SIZE, ARROW_SIZE, 0}, 4);
+		g2.fillPolygon(new int[] {l/2, l/2-ARROW_SIZE, l/2-ARROW_SIZE+4, l/2-ARROW_SIZE},
+			new int[] {0, -ARROW_SIZE,0, ARROW_SIZE}, 4);
 	}
 	
 	public String getTimeElapsed(){

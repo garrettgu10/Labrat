@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -28,6 +29,7 @@ public class boardPanel extends JPanel{
 	
 	public void paint(Graphics g){
 		Graphics2D g2 = (Graphics2D)g;
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2.setColor(new Color(225,225,255));
 		g2.fillRect(0, 0, size.width,size.height);
 		g2.setFont(new Font("Tahoma",Font.PLAIN,20));
@@ -37,7 +39,7 @@ public class boardPanel extends JPanel{
 		g2.drawLine(0, 42, size.width, 42);
 		String time;
 		for(int i = 0; i < names.size();i++){
-			g2.drawString(Integer.toString(i+1)+". "+names.get(i), 20, 70+30*i);
+			g2.drawString((i+1)+". "+names.get(i), 20, 70+30*i);
 			time = playPanel.formatTime(scores.get(i));
 			g2.drawString(time, size.width-
 					g2.getFontMetrics().stringWidth(time)-20, 70+30*i);

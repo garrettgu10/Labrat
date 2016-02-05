@@ -23,19 +23,23 @@ public class myPlayer{
 	}
 	
 	void stop(){
-		try{
-			clip.stop();
-		}catch(NullPointerException e){
-			//blah
+		if(play){
+			try{
+				clip.stop();
+			}catch(NullPointerException e){
+				//blah
+			}
 		}
 	}
 	
 	void start(int loops){
-		try{
-			clip.start();
-			clip.loop(loops);
-		}catch(NullPointerException e){
-			//blah
+		if(play){
+			try{
+				clip.start();
+				clip.loop(loops);
+			}catch(NullPointerException e){
+				//blah
+			}
 		}
 	}
 }

@@ -81,7 +81,7 @@ public class Main {
 	
 	public void displayDisclaimer(){
 		int response = JOptionPane.showConfirmDialog(null, 
-				"By using this software, you agree not to:\n"
+				"By using this software with the stock server, you agree not to:\n"
 				+ "\tConnect extra peripherals to the computer to gain an advantage over others.\n"
 				+ "\tAttempt to modify the high score board with unauthorized software.\n"
 				+ "\tUse a modified version of this software to gain an advantage over others.\n"
@@ -169,10 +169,9 @@ public class Main {
 			//whatevs
 		}
 		if(highScore < 0){
-			JOptionPane.showMessageDialog(null, "Sorry, your account has been banned.\n"
-					+ "Contact Garrett Gu to lift ban.\n"
-					+ "garrettgu777@gmail.com", "Banned", JOptionPane.ERROR_MESSAGE);
-			System.exit(2);
+			JOptionPane.showMessageDialog(null, "You have been banned.\n"
+					+ "Contact Garrett Gu at garrettgu777@gmail.com if you think this is an error.");
+			System.exit(1);
 		}
 		int musicyesno = JOptionPane.showConfirmDialog(null,
 				"Do you want music and sound effects?\n"

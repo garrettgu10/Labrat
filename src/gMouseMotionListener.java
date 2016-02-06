@@ -15,7 +15,7 @@ public class gMouseMotionListener implements MouseMotionListener{
 		if(Math.pow(mouseX-mainmain.m.pp.circleCenter.x,2) + 
 				Math.pow(mouseY-mainmain.m.pp.circleCenter.y,2) > 
 				Math.pow(mainmain.m.sm.circleRadius, 2)){
-			mainmain.m.pw.fail(mainmain.m.pp.getFinalScore());
+			mainmain.m.pw.fail(mainmain.m.pp.getScoreMilis());
 		}
 	}
 }

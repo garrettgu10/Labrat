@@ -37,6 +37,7 @@ public class playPanel extends JPanel{
 	public static final double changeSpeed = 3; //higher is slower
 	int opacity = 0;
 	Image character;
+	boolean snugChar = false;
 	Thread stopTheCheatrz = new Thread() {
 		public void run(){
 			Point mousePosition;
@@ -51,10 +52,14 @@ public class playPanel extends JPanel{
 					if(Math.pow(mousePosition.x-mainmain.m.pp.circleCenter.x,2) + 
 							Math.pow(mousePosition.y-mainmain.m.pp.circleCenter.y,2) > 
 							Math.pow(mainmain.m.sm.circleRadius, 2)){
-						mainmain.m.pw.fail(getFinalScore());
+						mainmain.m.pw.fail(getScoreMilis());
 					}
 				} catch (Exception e){
 					//whatevs -- who's Chris?
+				}
+				if(!snugChar && mainmain.m.pp.getScoreMilis() > mainmain.m.highScore){
+					snugChar = true;
+					mainmain.m.pp.setCharacterIcon("snug");
 				}
 				try {
 					Thread.sleep(250);
@@ -65,7 +70,7 @@ public class playPanel extends JPanel{
 		}
 	};
 	
-	public int getFinalScore(){
+	public int getScoreMilis(){
 		return (int) (System.currentTimeMillis()-startTime);
 	}
 	
@@ -105,7 +110,10 @@ public class playPanel extends JPanel{
 		g2.setFont(timerFont);
 		g2.setColor(Color.GRAY);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2+2, 8*u+2);
-		g2.setColor(txtColor);
+		if(mainmain.m.pw.ongoing)
+			g2.setColor(txtColor);
+		else
+			g2.setColor(Color.WHITE);
 		g2.drawString(time, size.width/2-g2.getFontMetrics().stringWidth(time)/2, 8*u);
 		g2.setFont(plainFont);
 		g2.setColor(Color.WHITE);
@@ -118,7 +126,6 @@ public class playPanel extends JPanel{
 		g2.setColor(Color.DARK_GRAY);
 		if(mainmain.m.skynet.drag != 0 && mainmain.m.sm.showDrag)
 			drawDrag(g2);
-		//if(!mainmain.m.pw.ongoing)
 		g2.drawImage(character,mousePosition.x-cursorRadius, mousePosition.y-cursorRadius,null);
 		g2.setColor(new Color(255,255,255,opacity*20));
 		g2.fillRect(0, 0, size.width, size.height);
@@ -183,7 +190,7 @@ public class playPanel extends JPanel{
 					MouseInfo.getPointerInfo().getLocation().y-
 					this.getLocationOnScreen().y);
 		}catch(NullPointerException e){
-			mainmain.m.pw.fail(getFinalScore());
+			mainmain.m.pw.fail(getScoreMilis());
 			return new Point(0,0);
 			
 		}

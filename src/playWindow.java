@@ -16,6 +16,7 @@ public class playWindow extends JFrame{
 	public void fail(int score){
 		if(ongoing){
 			ongoing = false;
+			mainmain.m.pp.setCharacterIcon("ded");
 			mainmain.m.gameMusic.stop();
 			new myPlayer(0,"game_over");
 			updatedHighScore = false;

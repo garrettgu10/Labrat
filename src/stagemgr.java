@@ -11,14 +11,21 @@ public class stagemgr {
 			while(mainmain.m.pw.ongoing){
 				try {
 					if(stagenumber == 1)
-						Thread.sleep(5400);
+						Thread.sleep(4900);
 					else if(stagenumber == 2)
-						Thread.sleep(6000);
+						Thread.sleep(5500);
 					else
-						Thread.sleep(12000);
+						Thread.sleep(11500);
 				} catch (InterruptedException e) {
 					//whatevs
 				}
+				mainmain.m.pp.setCharacterIcon("shocked");
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// whatevs
+				}
+				mainmain.m.pp.setCharacterIcon("smiley_30x30");
 				changeStage(stagenumber+1);
 			}
 		}

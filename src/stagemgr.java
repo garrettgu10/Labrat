@@ -25,7 +25,7 @@ public class stagemgr {
 				} catch (InterruptedException e) {
 					// whatevs
 				}
-				mainmain.m.pp.setCharacterIcon("smiley_30x30");
+				mainmain.m.pp.setCharacterIcon((mainmain.m.pp.snugChar? "snug":"smiley_30x30"));
 				changeStage(stagenumber+1);
 			}
 		}

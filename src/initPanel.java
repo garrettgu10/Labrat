@@ -172,7 +172,7 @@ public class initPanel extends JPanel{
 		Graphics2D g2 = (Graphics2D)g;
 		Graphics2D g3 = (Graphics2D)g.create(); // graphics for bgPlayButton
 		Graphics2D g4 = (Graphics2D)g.create();
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setColor(bgColor);
 		g2.fillRect(0, 0, size.width, size.height);
 		g3.setColor(bgPlayColor);

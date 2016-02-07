@@ -57,7 +57,7 @@ public class playPanel extends JPanel{
 				} catch (Exception e){
 					//whatevs -- who's Chris?
 				}
-				if(!snugChar && mainmain.m.pp.getScoreMilis() > mainmain.m.highScore){
+				if(!snugChar && mainmain.m.highScore > 0 && mainmain.m.pp.getScoreMilis() > mainmain.m.highScore){
 					snugChar = true;
 					mainmain.m.pp.setCharacterIcon("snug");
 				}

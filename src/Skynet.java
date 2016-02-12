@@ -25,8 +25,7 @@ public class Skynet extends Robot{
 			try {
 				Thread.sleep(1450);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				// whatevs
 			}
 			while(mainmain.m.pw.ongoing){
 				try{
